@@ -1,6 +1,8 @@
 const canvas = document.querySelector("canvas");
 const c = canvas.getContext("2d");
-
+const timer = document.getElementById("timer")
+const playerHealth = document.getElementById("playerHealth")
+const enemyHealth = document.getElementById("enemyHealth")
 canvas.width = 1024;
 canvas.height = 576;
 
@@ -25,6 +27,7 @@ class Sprite {
     };
     this.color = color;
     this.isAttacking;
+    this.health= 100;
   }
   draw() {
     //draw characters
@@ -159,16 +162,22 @@ function animate() {
     rectangularCollision({ rectangle1: player, rectangle2: enemy }) &&
     player.isAttacking
   ) {
+    
     console.log("player hit enemy");
     player.isAttacking = false;
+    enemy.health -= 5
+    enemyHealth.style.width = enemy.health.toString() + "%"
   }
   //enemy attacks player
   if (
     rectangularCollision({ rectangle1: enemy, rectangle2: player }) &&
     enemy.isAttacking
+   
   ) {
     console.log("enemy hit player");
     enemy.isAttacking = false;
+     player.health -=5;
+    playerHealth.style.width = player.health.toString() + "%"
   }
 }
 
