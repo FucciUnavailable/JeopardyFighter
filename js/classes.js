@@ -19,18 +19,23 @@ class Sprite {
     (this.framesHold = 5), (this.offset = offset);
   }
   draw() {
-    c.drawImage(
-      this.image,
-      this.currentFrame * (this.image.width / this.maxFrame),
-      0,
-      this.image.width / this.maxFrame,
-      this.image.height,
-      this.position.x - this.offset.x,
-      this.position.y - this.offset.y,
-      (this.image.width / this.maxFrame) * this.scale,
-      this.image.height * this.scale
-    );
+    if (this.image.complete && this.image.naturalWidth > 0) {
+      c.drawImage(
+        this.image,
+        this.currentFrame * (this.image.width / this.maxFrame),
+        0,
+        this.image.width / this.maxFrame,
+        this.image.height,
+        this.position.x - this.offset.x,
+        this.position.y - this.offset.y,
+        (this.image.width / this.maxFrame) * this.scale,
+        this.image.height * this.scale
+      );
+    } else {
+      console.warn('Image not loaded or in a broken state:', this.image.src);
+    }
   }
+  
   animateFrames() {
     this.framesElapsed++;
     if (this.framesElapsed % this.framesHold === 0) {

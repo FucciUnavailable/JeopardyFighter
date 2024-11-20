@@ -70,9 +70,9 @@ const enemy = new Fighter({
     x: -50,
     y: 0,
   },
-  imageSrc: "./img/kenji/Idle.png",
+ /* imageSrc: "./img/kenji/Idle.png",
   maxFrame: 8,
-  scale: 2.5,
+  scale: 2.5, */
 });
 //draw enemy and player
 player.draw();
@@ -103,8 +103,7 @@ function animate() {
   //make sure player and enemy stop moving when key is up
   player.velocity.x = 0;
   enemy.velocity.x = 0;
-  player.switchSprites("idle");
-
+  //player.switchSprites("idle");
   //player movement animation
   if (keys.a.pressed && player.lastKey === "a") {
     player.velocity.x = -5; //5fps
