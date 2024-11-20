@@ -5,74 +5,23 @@ const playerHealth = document.getElementById("playerHealth")
 const enemyHealth = document.getElementById("enemyHealth")
 canvas.width = 1024;
 canvas.height = 576;
+const displayText = document.querySelector("#displayText")
 
 c.fillRect(0, 0, canvas.width, canvas.height);
 
 //how fast players fall
 const gravity = 0.7;
 
-//constructing class
-class Sprite {
-  constructor({ position, velocity, color = "red", offset }) {
-    this.position = position; //position on canvas
-    this.velocity = velocity; //movement (speed)
-    this.height = 150;
-    this.width = 50;
-    this.lastKey;
-    this.attackBox = {
-      position: { x: this.position.x, y: this.position.y },
-      width: 100,
-      height: 50,
-      offset,
-    };
-    this.color = color;
-    this.isAttacking;
-    this.health= 100;
-  }
-  draw() {
-    //draw characters
-    c.fillStyle = this.color;
 
-    c.fillRect(this.position.x, this.position.y, this.width, this.height);
-    //attack box draw
-    if (this.isAttacking) {
-      c.fillStyle = "green";
-      c.fillRect(
-        this.attackBox.position.x,
-        this.attackBox.position.y,
-        this.attackBox.width,
-        this.attackBox.height
-      );
-    }
-  }
-
-  //we animate the characters
-  update() {
-    this.draw();
-    this.attackBox.position.x = this.position.x + this.attackBox.offset.x;
-    this.attackBox.position.y = this.position.y;
-    //adding movement to the X position using X speed (velocity)
-    this.position.x += this.velocity.x; //current position + movement speed
-    this.position.y += this.velocity.y;
-    //if the player position taking into account player height and speed is longer than the canvas => stop movement
-    if (this.position.y + this.height + this.velocity.y >= canvas.height) {
-      this.velocity.y = 0;
-    } else {
-      this.velocity.y += gravity;
-    }
-  }
-  //attack
-  attack() {
-    this.isAttacking = true;
-    //attack pops up for 100ms
-    setTimeout(() => {
-      this.isAttacking = false;
-    }, 100);
-  }
-}
-
+const background = new Sprite({
+  position: {
+    x:0,
+    y:0
+  },
+  imageSrc: "./img/background.png"
+})
 //player
-const player = new Sprite({
+const player = new Fighter({
   //initial position of main player
   position: {
     x: 0,
@@ -90,7 +39,7 @@ const player = new Sprite({
   },
 });
 
-const enemy = new Sprite({
+const enemy = new Fighter({
   //initial position of enemy
   position: {
     x: 400,
@@ -132,10 +81,50 @@ function rectangularCollision({ rectangle1, rectangle2 }) {
     rectangle1.attackBox.position.y <= rectangle2.position.y + rectangle2.height
   );
 }
+
+
+//determine the winner function
+function determineWinner({player,enemy, timerId}) {
+    clearTimeout(timerId)
+    displayText.style.display = "flex"
+    if(player.health > enemy.health){
+      displayText.innerHTML = "PLAYER 1 WINS"
+    }else if(enemy.health > player.health){
+      displayText.innerHTML = "ENEMY WINS"
+    }else{
+      displayText.innerHTML = "TIE"
+    }
+  
+}
+
+
+
+
+
+
+let time = 60
+let timerId
+//timer function
+function decreaseTimer() {
+  if(time >0){
+    timerId = setTimeout(decreaseTimer, 1000)
+    time --
+    timer.innerHTML = time
+  }
+  if (timer === 0){
+    determineWinner({player,enemy})
+  }
+
+}
+
+decreaseTimer()
+
+//animation function
 function animate() {
   window.requestAnimationFrame(animate);
   c.fillStyle = "black";
   c.fillRect(0, 0, canvas.width, canvas.height);
+  background.update()
   player.update();
   enemy.update();
 
@@ -163,7 +152,6 @@ function animate() {
     player.isAttacking
   ) {
     
-    console.log("player hit enemy");
     player.isAttacking = false;
     enemy.health -= 5
     enemyHealth.style.width = enemy.health.toString() + "%"
@@ -171,14 +159,17 @@ function animate() {
   //enemy attacks player
   if (
     rectangularCollision({ rectangle1: enemy, rectangle2: player }) &&
-    enemy.isAttacking
-   
-  ) {
-    console.log("enemy hit player");
+    enemy.isAttacking) {
     enemy.isAttacking = false;
      player.health -=5;
     playerHealth.style.width = player.health.toString() + "%"
   }
+
+  //end game when health reaches 0
+    if (enemy.health <= 0 || player.health <=0){
+        determineWinner({player, enemy, timerId})
+    }
+
 }
 
 animate();
