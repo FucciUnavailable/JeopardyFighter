@@ -1,82 +1,136 @@
 //constructing class
 class Sprite {
-    constructor({ position, imageSrc}) {
-      this.position = position; //position on canvas
-      this.height = 150;
-      this.width = 50;
-      this.img = new Image()
-      this.img.src = imageSrc
-    
-    }
-    draw() {
-     c.drawImage(this.img, this.position.x, this.position.y)
-    }
-  
-    //we animate the characters
-    update() {
-      this.draw()
-  
-    } 
-  
+  constructor({
+    position,
+    imageSrc,
+    scale = 1,
+    maxFrame = 1,
+    offset = { x: 0, y: 0 },
+  }) {
+    this.position = position; //position on canvas
+    this.height = 150;
+    this.width = 50;
+    this.image = new Image();
+    this.image.src = imageSrc;
+    this.scale = scale;
+    this.maxFrame = maxFrame;
+    this.currentFrame = 0;
+    this.framesElapsed = 0;
+    (this.framesHold = 5), (this.offset = offset);
   }
-  
-  
-  
-  //Fighter class
-  class Fighter {
-    constructor({ position, velocity, color = "red", offset }) {
-      this.position = position; //position on canvas
-      this.velocity = velocity; //movement (speed)
-      this.height = 150;
-      this.width = 50;
-      this.lastKey;
-      this.attackBox = {
-        position: { x: this.position.x, y: this.position.y },
-        width: 100,
-        height: 50,
-        offset,
-      };
-      this.color = color;
-      this.isAttacking;
-      this.health= 100;
-    }
-    draw() {
-      //draw characters
-      c.fillStyle = this.color;
-      c.fillRect(this.position.x, this.position.y, this.width, this.height);
-      //attack box draw
-      if (this.isAttacking) {
-        c.fillStyle = "green";
-        c.fillRect(
-          this.attackBox.position.x,
-          this.attackBox.position.y,
-          this.attackBox.width,
-          this.attackBox.height
-        );
-      }
-    }
-  
-    //we animate the characters
-    update() {
-      this.draw();
-      this.attackBox.position.x = this.position.x + this.attackBox.offset.x;
-      this.attackBox.position.y = this.position.y;
-      //adding movement to the X position using X speed (velocity)
-      this.position.x += this.velocity.x; //current position + movement speed
-      this.position.y += this.velocity.y;
-      //if the player position taking into account player height and speed is longer than the canvas => stop movement
-      if (this.position.y + this.height + this.velocity.y >= canvas.height) {
-        this.velocity.y = 0;
+  draw() {
+    c.drawImage(
+      this.image,
+      this.currentFrame * (this.image.width / this.maxFrame),
+      0,
+      this.image.width / this.maxFrame,
+      this.image.height,
+      this.position.x - this.offset.x,
+      this.position.y - this.offset.y,
+      (this.image.width / this.maxFrame) * this.scale,
+      this.image.height * this.scale
+    );
+  }
+  animateFrames() {
+    this.framesElapsed++;
+    if (this.framesElapsed % this.framesHold === 0) {
+      if (this.currentFrame < this.maxFrame - 1) {
+        this.currentFrame++;
       } else {
-        this.velocity.y += gravity;
+        this.currentFrame = 0;
       }
-    } 
-    //attack
-    attack() {
-      this.isAttacking = true;
-      //attack pops up for 100ms
-      setTimeout(() => {
-        this.isAttacking = false;
-      }, 100);
     }
   }
+  //we animate the characters
+  update() {
+    this.draw();
+    this.animateFrames();
+  }
+}
+
+//Fighter class
+class Fighter extends Sprite {
+  constructor({
+    position,
+    velocity,
+    color = "red",
+    imageSrc,
+    scale = 1,
+    maxFrame = 1,
+    offset = { x: 0, y: 0 },
+    sprites,
+  }) {
+    super({ position, imageSrc, scale, maxFrame, offset });
+
+    this.velocity = velocity; //movement (speed)
+    this.height = 150;
+    this.width = 50;
+    this.lastKey;
+    this.attackBox = {
+      position: { x: this.position.x, y: this.position.y },
+      width: 100,
+      height: 50,
+      offset,
+    };
+    this.color = color;
+    this.isAttacking;
+    this.health = 100;
+    this.currentFrame = 0;
+    this.framesElapsed = 0;
+    this.framesHold = 5;
+    this.sprites = sprites;
+    for (const stance in sprites) {
+      sprites[stance].image = new Image();
+      sprites[stance].image.src = sprites[stance].imageSrc;
+    }
+  }
+
+  //we animate the characters
+  update() {
+    this.draw();
+    this.animateFrames();
+
+    this.attackBox.position.x = this.position.x + this.attackBox.offset.x;
+    this.attackBox.position.y = this.position.y;
+    //adding movement to the X position using X speed (velocity)
+    this.position.x += this.velocity.x; //current position + movement speed
+    this.position.y += this.velocity.y;
+    //if the player position taking into account player height and speed is longer than the canvas => stop movement
+    if (this.position.y + this.height + this.velocity.y >= canvas.height - 95) {
+      this.velocity.y = 0;
+    } else {
+      this.velocity.y += gravity;
+    }
+  }
+  //attack
+  attack() {
+    this.isAttacking = true;
+    //attack pops up for 100ms
+    setTimeout(() => {
+      this.isAttacking = false;
+    }, 100);
+  }
+
+  switchSprites() {
+    switch (spr) {
+      case "idle":
+        if (this.image !== this.sprites.idle.image) {
+          this.image = this.sprites.idle.image;
+          player.maxFrame = player.sprites.idle.maxFrame;
+        }
+        break;
+      case "run":
+        if (this.image !== this.sprites.run.image) {
+          this.image = this.sprites.run.image;
+          player.maxFrame = player.sprites.run.maxFrame;
+        }
+        break;
+      case "jump":
+        if (this.image !== this.sprites.jump.image) {
+          player.image = player.sprites.jump.image;
+          player.maxFrame = player.sprites.jump.maxFrame;
+        }
+        break;
+    }
+  }
+}

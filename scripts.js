@@ -1,25 +1,32 @@
 const canvas = document.querySelector("canvas");
 const c = canvas.getContext("2d");
-const timer = document.getElementById("timer")
-const playerHealth = document.getElementById("playerHealth")
-const enemyHealth = document.getElementById("enemyHealth")
+const timer = document.getElementById("timer");
+const playerHealth = document.getElementById("playerHealth");
+const enemyHealth = document.getElementById("enemyHealth");
 canvas.width = 1024;
 canvas.height = 576;
-const displayText = document.querySelector("#displayText")
+const displayText = document.querySelector("#displayText");
 
 c.fillRect(0, 0, canvas.width, canvas.height);
 
 //how fast players fall
 const gravity = 0.7;
 
-
+//background image
 const background = new Sprite({
   position: {
-    x:0,
-    y:0
+    x: 0,
+    y: 0,
   },
-  imageSrc: "./img/background.png"
-})
+  imageSrc: "./img/background.png",
+});
+//animated shop image
+const shop = new Sprite({
+  position: { x: 600, y: 160 },
+  imageSrc: "./img/shop.png",
+  scale: 2.5,
+  maxFrame: 6,
+});
 //player
 const player = new Fighter({
   //initial position of main player
@@ -33,9 +40,18 @@ const player = new Fighter({
     y: 10,
   },
   color: "blue",
+
   offset: {
-    x: 0,
-    y: 0,
+    x: 215,
+    y: 157,
+  },
+  imageSrc: "/img/samuraiMack/Idle.png",
+  maxFrame: 8,
+  scale: 2.5,
+  sprites: {
+    idle: { imageSrc: "/img/samuraiMack/Idle.png", maxFrame: 8 },
+    run: { imageSrc: "/img/samuraiMack/Run.png", maxFrame: 8 },
+    jump: { imageSrc: "/img/samuraiMack/Jump.png", maxFrame: 2 },
   },
 });
 
@@ -54,6 +70,9 @@ const enemy = new Fighter({
     x: -50,
     y: 0,
   },
+  imageSrc: "./img/kenji/Idle.png",
+  maxFrame: 8,
+  scale: 2.5,
 });
 //draw enemy and player
 player.draw();
@@ -69,74 +88,35 @@ const keys = {
   ArrowUp: { pressed: false },
 };
 
-//collision function
-function rectangularCollision({ rectangle1, rectangle2 }) {
-  return (
-    rectangle1.attackBox.position.x + rectangle1.attackBox.width >=
-      rectangle2.position.x &&
-    rectangle1.attackBox.position.x <=
-      rectangle2.position.x + rectangle2.width &&
-    rectangle1.attackBox.position.y + rectangle1.attackBox.height >=
-      rectangle2.position.y &&
-    rectangle1.attackBox.position.y <= rectangle2.position.y + rectangle2.height
-  );
-}
-
-
-//determine the winner function
-function determineWinner({player,enemy, timerId}) {
-    clearTimeout(timerId)
-    displayText.style.display = "flex"
-    if(player.health > enemy.health){
-      displayText.innerHTML = "PLAYER 1 WINS"
-    }else if(enemy.health > player.health){
-      displayText.innerHTML = "ENEMY WINS"
-    }else{
-      displayText.innerHTML = "TIE"
-    }
-  
-}
-
-
-
-
-
-
-let time = 60
-let timerId
-//timer function
-function decreaseTimer() {
-  if(time >0){
-    timerId = setTimeout(decreaseTimer, 1000)
-    time --
-    timer.innerHTML = time
-  }
-  if (timer === 0){
-    determineWinner({player,enemy})
-  }
-
-}
-
-decreaseTimer()
+decreaseTimer();
 
 //animation function
 function animate() {
   window.requestAnimationFrame(animate);
   c.fillStyle = "black";
   c.fillRect(0, 0, canvas.width, canvas.height);
-  background.update()
+  background.update();
+  shop.update();
   player.update();
   enemy.update();
 
   //make sure player and enemy stop moving when key is up
   player.velocity.x = 0;
   enemy.velocity.x = 0;
+  player.switchSprites("idle");
 
   //player movement animation
   if (keys.a.pressed && player.lastKey === "a") {
     player.velocity.x = -5; //5fps
+    player.switchSprites("run");
   } else if (keys.d.pressed && player.lastKey === "d") {
     player.velocity.x = 5; //5fps
+    player.switchSprites("run");
+  }
+
+  //if player is jumping
+  if (player.velocity.y < 0) {
+    player.switchSprites("jump")
   }
   //enemy movement animation
   if (keys.ArrowLeft.pressed && enemy.lastKey === "ArrowLeft") {
@@ -151,25 +131,24 @@ function animate() {
     rectangularCollision({ rectangle1: player, rectangle2: enemy }) &&
     player.isAttacking
   ) {
-    
     player.isAttacking = false;
-    enemy.health -= 5
-    enemyHealth.style.width = enemy.health.toString() + "%"
+    enemy.health -= 5;
+    enemyHealth.style.width = enemy.health.toString() + "%";
   }
   //enemy attacks player
   if (
     rectangularCollision({ rectangle1: enemy, rectangle2: player }) &&
-    enemy.isAttacking) {
+    enemy.isAttacking
+  ) {
     enemy.isAttacking = false;
-     player.health -=5;
-    playerHealth.style.width = player.health.toString() + "%"
+    player.health -= 5;
+    playerHealth.style.width = player.health.toString() + "%";
   }
 
   //end game when health reaches 0
-    if (enemy.health <= 0 || player.health <=0){
-        determineWinner({player, enemy, timerId})
-    }
-
+  if (enemy.health <= 0 || player.health <= 0) {
+    determineWinner({ player, enemy, timerId });
+  }
 }
 
 animate();
