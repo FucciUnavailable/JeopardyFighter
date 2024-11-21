@@ -84,7 +84,7 @@ const enemy = new Fighter({
   maxFrame: 4,
   scale: 2.5, 
   sprites: {
-    idle: { imageSrc: "/img/kenji/Idle.png", maxFrame: 8 },
+    idle: { imageSrc: "/img/kenji/Idle.png", maxFrame: 4 },
     run: { imageSrc: "/img/kenji/Run.png", maxFrame: 8 },
     jump: { imageSrc: "/img/kenji/Jump.png", maxFrame: 2 },
     takeHit: { imageSrc: "/img/Take Hit/Jump.png", maxFrame: 3 },
@@ -141,12 +141,10 @@ function animate() {
   //if player is jumping
   if (player.velocity.y < 0) {
     player.switchSprites("jump")
+  }else if (player.velocity.y >0){
+    player.switchSprites("fall")
   }
-  //if player attacks
-  // if(player.lastKey === "w"){a
-  //   while(play 0){
-  //   player.switchSprites("fall")}
-  // }
+
   //enemy movement animation
   if (keys.ArrowLeft.pressed && enemy.lastKey === "ArrowLeft") {
     enemy.velocity.x = -5; //5fps
@@ -158,6 +156,8 @@ function animate() {
     //if enemy is jumping
     if (enemy.velocity.y < 0) {
       enemy.switchSprites("jump")
+    }else if ( enemy.velocity.y > 0){
+      enemy.switchSprites("fall")
     }
 
   //detect for attack collision

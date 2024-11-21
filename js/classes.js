@@ -64,8 +64,9 @@ class Fighter extends Sprite {
     maxFrame = 1,
     offset = { x: 0, y: 0 },
     sprites,
+    currentFrame 
   }) {
-    super({ position, imageSrc, scale, maxFrame, offset });
+    super({ position, imageSrc, scale, maxFrame, offset, currentFrame });
 
     this.velocity = velocity; //movement (speed)
     this.height = 150;
@@ -111,6 +112,7 @@ class Fighter extends Sprite {
   //attack
   attack() {
     this.isAttacking = true;
+    this.switchSprites("attack1");
     //attack pops up for 100ms
     setTimeout(() => {
       this.isAttacking = false;
@@ -118,53 +120,61 @@ class Fighter extends Sprite {
   }
 
   switchSprites(spr) {
+    if (this.image === this.sprites.attack1.image && this.currentFrame < this.sprites.attack1.maxFrame -1){
+     return
+    }else{
+      this.image = this.sprites.idle.image;
+      this.maxFrame = this.sprites.idle.maxFrame;
+
+    }
     switch (spr) {
       case "idle":
         if (this.image !== this.sprites.idle.image) {
           this.image = this.sprites.idle.image;
-          player.maxFrame = player.sprites.idle.maxFrame;
+          this.maxFrame = this.sprites.idle.maxFrame;
         }
         break;
       case "run":
         if (this.image !== this.sprites.run.image) {
           this.image = this.sprites.run.image;
-          player.maxFrame = player.sprites.run.maxFrame;
+          this.maxFrame = this.sprites.run.maxFrame;
+     
         }
         break;
       case "jump":
         if (this.image !== this.sprites.jump.image) {
-          player.image = player.sprites.jump.image;
-          player.maxFrame = player.sprites.jump.maxFrame;
+          this.image = this.sprites.jump.image;
+          this.maxFrame = this.sprites.jump.maxFrame;
         }
         break;
       case "fall":
         if (this.image !== this.sprites.fall.image) {
-          player.image = player.sprites.fall.image;
-          player.maxFrame = player.sprites.fall.maxFrame;
+          this.image = this.sprites.fall.image;
+          this.maxFrame = this.sprites.fall.maxFrame;
         }
         break;
       case "takeHit":
         if (this.image !== this.sprites.takeHit.image) {
-          player.image = player.sprites.takeHit.image;
-          player.maxFrame = player.sprites.takeHit.maxFrame;
+          this.image = this.sprites.takeHit.image;
+          this.maxFrame = this.sprites.takeHit.maxFrame;
         }
         break;
       case "attack1":
         if (this.image !== this.sprites.attack1.image) {
-          player.image = player.sprites.attack1.image;
-          player.maxFrame = player.sprites.attack1.maxFrame;
+          this.image = this.sprites.attack1.image;
+          this.maxFrame = this.sprites.attack1.maxFrame;
         }
         break;
       case "attack2":
         if (this.image !== this.sprites.attack2.image) {
-          player.image = player.sprites.attack2.image;
-          player.maxFrame = player.sprites.attack2.maxFrame;
+          this.image = this.sprites.attack2.image;
+          this.maxFrame = this.sprites.attack2.maxFrame;
         }
         break;
       case "death":
         if (this.image !== this.sprites.death.image) {
-          player.image = player.sprites.death.image;
-          player.maxFrame = player.sprites.death.maxFrame;
+          this.image = this.sprites.death.image;
+          this.maxFrame = this.sprites.death.maxFrame;
         }
         break;
     }
