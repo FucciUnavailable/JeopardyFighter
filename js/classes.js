@@ -32,10 +32,10 @@ class Sprite {
         this.image.height * this.scale
       );
     } else {
-      console.warn('Image not loaded or in a broken state:', this.image.src);
+      console.warn("Image not loaded or in a broken state:", this.image.src);
     }
   }
-  
+
   animateFrames() {
     this.framesElapsed++;
     if (this.framesElapsed % this.framesHold === 0) {
@@ -84,7 +84,7 @@ class Fighter extends Sprite {
     this.framesElapsed = 0;
     this.framesHold = 5;
     this.sprites = sprites;
-    for (const stance in sprites) {
+    for (let stance in sprites) {
       sprites[stance].image = new Image();
       sprites[stance].image.src = sprites[stance].imageSrc;
     }
@@ -107,6 +107,7 @@ class Fighter extends Sprite {
       this.velocity.y += gravity;
     }
   }
+
   //attack
   attack() {
     this.isAttacking = true;
@@ -116,7 +117,7 @@ class Fighter extends Sprite {
     }, 100);
   }
 
-  switchSprites() {
+  switchSprites(spr) {
     switch (spr) {
       case "idle":
         if (this.image !== this.sprites.idle.image) {
@@ -134,6 +135,36 @@ class Fighter extends Sprite {
         if (this.image !== this.sprites.jump.image) {
           player.image = player.sprites.jump.image;
           player.maxFrame = player.sprites.jump.maxFrame;
+        }
+        break;
+      case "fall":
+        if (this.image !== this.sprites.fall.image) {
+          player.image = player.sprites.fall.image;
+          player.maxFrame = player.sprites.fall.maxFrame;
+        }
+        break;
+      case "takeHit":
+        if (this.image !== this.sprites.takeHit.image) {
+          player.image = player.sprites.takeHit.image;
+          player.maxFrame = player.sprites.takeHit.maxFrame;
+        }
+        break;
+      case "attack1":
+        if (this.image !== this.sprites.attack1.image) {
+          player.image = player.sprites.attack1.image;
+          player.maxFrame = player.sprites.attack1.maxFrame;
+        }
+        break;
+      case "attack2":
+        if (this.image !== this.sprites.attack2.image) {
+          player.image = player.sprites.attack2.image;
+          player.maxFrame = player.sprites.attack2.maxFrame;
+        }
+        break;
+      case "death":
+        if (this.image !== this.sprites.death.image) {
+          player.image = player.sprites.death.image;
+          player.maxFrame = player.sprites.death.maxFrame;
         }
         break;
     }

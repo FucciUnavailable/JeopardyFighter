@@ -31,7 +31,7 @@ const shop = new Sprite({
 const player = new Fighter({
   //initial position of main player
   position: {
-    x: 0,
+    x: 200,
     y: 0,
   },
   //initial movement speed of main player
@@ -52,13 +52,23 @@ const player = new Fighter({
     idle: { imageSrc: "/img/samuraiMack/Idle.png", maxFrame: 8 },
     run: { imageSrc: "/img/samuraiMack/Run.png", maxFrame: 8 },
     jump: { imageSrc: "/img/samuraiMack/Jump.png", maxFrame: 2 },
+    takeHit: { imageSrc: "/img/samuraiMack/Take Hit.png", maxFrame: 4},
+    fall: { imageSrc: "/img/samuraiMack/Fall.png", maxFrame: 2 },
+    death: { imageSrc: "/img/samuraiMack/Death.png", maxFrame: 6},
+    attack1: { imageSrc: "/img/samuraiMack/Attack1.png", maxFrame: 6 },
+    attack2: { imageSrc: "/img/samuraiMack/Attack2.png", maxFrame: 6 },
+
+
+
+
+
   },
 });
 
 const enemy = new Fighter({
   //initial position of enemy
   position: {
-    x: 400,
+    x: 600,
     y: 200,
   },
   //initial speed of movement of enemy
@@ -67,12 +77,25 @@ const enemy = new Fighter({
     y: 0,
   },
   offset: {
-    x: -50,
-    y: 0,
+    x: 0,
+    y: 170,
   },
- /* imageSrc: "./img/kenji/Idle.png",
-  maxFrame: 8,
-  scale: 2.5, */
+ imageSrc: "./img/kenji/Idle.png",
+  maxFrame: 4,
+  scale: 2.5, 
+  sprites: {
+    idle: { imageSrc: "/img/kenji/Idle.png", maxFrame: 8 },
+    run: { imageSrc: "/img/kenji/Run.png", maxFrame: 8 },
+    jump: { imageSrc: "/img/kenji/Jump.png", maxFrame: 2 },
+    takeHit: { imageSrc: "/img/Take Hit/Jump.png", maxFrame: 3 },
+    fall: { imageSrc: "/img/kenji/Fall.png", maxFrame: 2 },
+    death: { imageSrc: "/img/kenji/Death.png", maxFrame:  7},
+    jump: { imageSrc: "/img/kenji/Jump.png", maxFrame: 2 },
+    attack1: { imageSrc: "/img/kenji/Attack1.png", maxFrame: 4 },
+    attack2: { imageSrc: "/img/kenji/Attack2.png", maxFrame: 4 },
+    
+
+  },
 });
 //draw enemy and player
 player.draw();
@@ -99,6 +122,8 @@ function animate() {
   shop.update();
   player.update();
   enemy.update();
+  player.switchSprites("idle")
+  enemy.switchSprites("idle")
 
   //make sure player and enemy stop moving when key is up
   player.velocity.x = 0;
@@ -117,12 +142,23 @@ function animate() {
   if (player.velocity.y < 0) {
     player.switchSprites("jump")
   }
+  //if player attacks
+  // if(player.lastKey === "w"){a
+  //   while(play 0){
+  //   player.switchSprites("fall")}
+  // }
   //enemy movement animation
   if (keys.ArrowLeft.pressed && enemy.lastKey === "ArrowLeft") {
     enemy.velocity.x = -5; //5fps
+    enemy.switchSprites("run")
   } else if (keys.ArrowRight.pressed && enemy.lastKey === "ArrowRight") {
     enemy.velocity.x = 5; //5fps
+    enemy.switchSprites("run")
   }
+    //if enemy is jumping
+    if (enemy.velocity.y < 0) {
+      enemy.switchSprites("jump")
+    }
 
   //detect for attack collision
   //player attacks enemy
@@ -130,6 +166,7 @@ function animate() {
     rectangularCollision({ rectangle1: player, rectangle2: enemy }) &&
     player.isAttacking
   ) {
+
     player.isAttacking = false;
     enemy.health -= 5;
     enemyHealth.style.width = enemy.health.toString() + "%";
@@ -140,13 +177,17 @@ function animate() {
     enemy.isAttacking
   ) {
     enemy.isAttacking = false;
+    player.switchSprites("takeHit")
     player.health -= 5;
     playerHealth.style.width = player.health.toString() + "%";
   }
+   if( player.isAttacking){
+  
+   }
 
   //end game when health reaches 0
   if (enemy.health <= 0 || player.health <= 0) {
-    determineWinner({ player, enemy, timerId });
+    determineWinner({ player, enemy, timer });
   }
 }
 
@@ -168,11 +209,14 @@ window.addEventListener("keydown", (event) => {
     case "w":
       keys.w.pressed = true;
       //go up by 10
+
       player.velocity.y = -20;
       player.lastKey = "w";
       break;
     case " ":
       player.attack();
+      player.lastKey = " "
+
       break;
   }
   switch (event.key) {

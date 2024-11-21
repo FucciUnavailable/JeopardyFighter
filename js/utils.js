@@ -41,3 +41,4 @@ function rectangularCollision({ rectangle1, rectangle2 }) {
     }
   
   }
+
