@@ -19,7 +19,6 @@ class Sprite {
     (this.framesHold = 5), (this.offset = offset);
   }
   draw() {
-    if (this.image.complete && this.image.naturalWidth > 0) {
       c.drawImage(
         this.image,
         this.currentFrame * (this.image.width / this.maxFrame),
@@ -31,9 +30,6 @@ class Sprite {
         (this.image.width / this.maxFrame) * this.scale,
         this.image.height * this.scale
       );
-    } else {
-      console.warn("Image not loaded or in a broken state:", this.image.src);
-    }
   }
 
   animateFrames() {
