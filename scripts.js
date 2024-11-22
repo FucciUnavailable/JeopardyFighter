@@ -49,14 +49,14 @@ const player = new Fighter({
   maxFrame: 8,
   scale: 2.5,
   sprites: {
-    idle: { imageSrc: "/img/samuraiMack/Idle.png", maxFrame: 8 },
-    run: { imageSrc: "/img/samuraiMack/Run.png", maxFrame: 8 },
-    jump: { imageSrc: "/img/samuraiMack/Jump.png", maxFrame: 2 },
-    takeHit: { imageSrc: "/img/samuraiMack/Take Hit.png", maxFrame: 4},
-    fall: { imageSrc: "/img/samuraiMack/Fall.png", maxFrame: 2 },
-    death: { imageSrc: "/img/samuraiMack/Death.png", maxFrame: 6},
-    attack1: { imageSrc: "/img/samuraiMack/Attack1.png", maxFrame: 6 },
-    attack2: { imageSrc: "/img/samuraiMack/Attack2.png", maxFrame: 6 },
+    idle: { imageSrc: "./img/samuraiMack/Idle.png", maxFrame: 8 },
+    run: { imageSrc: "./img/samuraiMack/Run.png", maxFrame: 8 },
+    jump: { imageSrc: "./img/samuraiMack/Jump.png", maxFrame: 2 },
+    takeHit: { imageSrc: "./img/samuraiMack/Take Hit.png", maxFrame: 4},
+    fall: { imageSrc: "./img/samuraiMack/Fall.png", maxFrame: 2 },
+    death: { imageSrc: "./img/samuraiMack/Death.png", maxFrame: 6},
+    attack1: { imageSrc: "./img/samuraiMack/Attack1.png", maxFrame: 6 },
+    attack2: { imageSrc: "./img/samuraiMack/Attack2.png", maxFrame: 6 },
 
 
 
