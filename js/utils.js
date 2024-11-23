@@ -37,7 +37,7 @@ function rectangularCollision({ rectangle1, rectangle2 }) {
       timer.innerHTML = time
     }
     if (timer === 0){
-      determineWinner({player,enemy})
+      determineWinner({player,enemy, timerId})
     }
   
   }

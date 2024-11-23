@@ -51,16 +51,11 @@ const player = new Fighter({
     idle: { imageSrc: "./img/samuraiMack/Idle.png", maxFrame: 8 },
     run: { imageSrc: "./img/samuraiMack/Run.png", maxFrame: 8 },
     jump: { imageSrc: "./img/samuraiMack/Jump.png", maxFrame: 2 },
-    takeHit: { imageSrc: "./img/samuraiMack/Take Hit.png", maxFrame: 4},
+    takeHit: { imageSrc: "./img/samuraiMack/TakeHit.png", maxFrame: 4 },
     fall: { imageSrc: "./img/samuraiMack/Fall.png", maxFrame: 2 },
-    death: { imageSrc: "./img/samuraiMack/Death.png", maxFrame: 6},
+    death: { imageSrc: "./img/samuraiMack/Death.png", maxFrame: 6 },
     attack1: { imageSrc: "./img/samuraiMack/Attack1.png", maxFrame: 6 },
     attack2: { imageSrc: "./img/samuraiMack/Attack2.png", maxFrame: 6 },
-
-
-
-
-
   },
 });
 
@@ -79,21 +74,19 @@ const enemy = new Fighter({
     x: 0,
     y: 170,
   },
- imageSrc: "./img/kenji/Idle.png",
+  imageSrc: "./img/kenji/Idle.png",
   maxFrame: 4,
-  scale: 2.5, 
+  scale: 2.5,
   sprites: {
     idle: { imageSrc: "/img/kenji/Idle.png", maxFrame: 4 },
     run: { imageSrc: "/img/kenji/Run.png", maxFrame: 8 },
     jump: { imageSrc: "/img/kenji/Jump.png", maxFrame: 2 },
-    takeHit: { imageSrc: "/img/Take Hit/Jump.png", maxFrame: 3 },
+    takeHit: { imageSrc: "/img/TakeHit/Jump.png", maxFrame: 3 },
     fall: { imageSrc: "/img/kenji/Fall.png", maxFrame: 2 },
-    death: { imageSrc: "/img/kenji/Death.png", maxFrame:  7},
+    death: { imageSrc: "/img/kenji/Death.png", maxFrame: 7 },
     jump: { imageSrc: "/img/kenji/Jump.png", maxFrame: 2 },
     attack1: { imageSrc: "/img/kenji/Attack1.png", maxFrame: 4 },
     attack2: { imageSrc: "/img/kenji/Attack2.png", maxFrame: 4 },
-    
-
   },
 });
 //draw enemy and player
@@ -121,13 +114,21 @@ function animate() {
   shop.update();
   player.update();
   enemy.update();
-  player.switchSprites("idle")
-  enemy.switchSprites("idle")
-
   //make sure player and enemy stop moving when key is up
   player.velocity.x = 0;
   enemy.velocity.x = 0;
-  //player.switchSprites("idle");
+  //idle player 
+  if(  player.velocity.x === 0
+  ){
+    player.switchSprites('idle')
+
+  }
+  //idle enemy
+  if(  enemy.velocity.x === 0
+  ){
+    enemy.switchSprites('idle')
+
+  }
   //player movement animation
   if (keys.a.pressed && player.lastKey === "a") {
     player.velocity.x = -5; //5fps
@@ -139,25 +140,31 @@ function animate() {
 
   //if player is jumping
   if (player.velocity.y < 0) {
-    player.switchSprites("jump")
-  }else if (player.velocity.y >0){
-    player.switchSprites("fall")
+    player.currentFrame = 0
+    player.switchSprites("jump");
+  } else if (player.velocity.y > 0) {
+    player.currentFrame = 0
+
+    player.switchSprites("fall");
   }
 
   //enemy movement animation
   if (keys.ArrowLeft.pressed && enemy.lastKey === "ArrowLeft") {
     enemy.velocity.x = -5; //5fps
-    enemy.switchSprites("run")
+    enemy.switchSprites("run");
   } else if (keys.ArrowRight.pressed && enemy.lastKey === "ArrowRight") {
     enemy.velocity.x = 5; //5fps
-    enemy.switchSprites("run")
+    enemy.switchSprites("run");
   }
-    //if enemy is jumping
-    if (enemy.velocity.y < 0) {
-      enemy.switchSprites("jump")
-    }else if ( enemy.velocity.y > 0){
-      enemy.switchSprites("fall")
-    }
+  //if enemy is jumping
+  if (enemy.velocity.y < 0) {
+    enemy.currentFrame = 0
+    enemy.switchSprites("jump");
+  } else if (enemy.velocity.y > 0) {
+    enemy.currentFrame = 0
+
+    enemy.switchSprites("fall");
+  }
 
   //detect for attack collision
   //player attacks enemy
@@ -165,8 +172,9 @@ function animate() {
     rectangularCollision({ rectangle1: player, rectangle2: enemy }) &&
     player.isAttacking
   ) {
+    player.isAttacking = false
 
-    player.isAttacking = false;
+    enemy.switchSprites("takeHit")
     enemy.health -= 5;
     enemyHealth.style.width = enemy.health.toString() + "%";
   }
@@ -175,14 +183,12 @@ function animate() {
     rectangularCollision({ rectangle1: enemy, rectangle2: player }) &&
     enemy.isAttacking
   ) {
-    enemy.isAttacking = false;
+    enemy.isAttacking = false
+
     player.switchSprites("takeHit")
     player.health -= 5;
     playerHealth.style.width = player.health.toString() + "%";
   }
-   if( player.isAttacking){
-  
-   }
 
   //end game when health reaches 0
   if (enemy.health <= 0 || player.health <= 0) {
@@ -214,8 +220,6 @@ window.addEventListener("keydown", (event) => {
       break;
     case " ":
       player.attack();
-      player.lastKey = " "
-
       break;
   }
   switch (event.key) {
