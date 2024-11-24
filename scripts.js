@@ -31,7 +31,7 @@ const shop = new Sprite({
 const player = new Fighter({
   //initial position of main player
   position: {
-    x: 200,
+    x: -50,
     y: 0,
   },
   //initial movement speed of main player
@@ -42,7 +42,7 @@ const player = new Fighter({
   color: "blue",
 
   offset: {
-    x: 215,
+    x: 0,
     y: 157,
   },
   maxFrame: 8,
@@ -81,7 +81,7 @@ const enemy = new Fighter({
     idle: { imageSrc: "/img/kenji/Idle.png", maxFrame: 4 },
     run: { imageSrc: "/img/kenji/Run.png", maxFrame: 8 },
     jump: { imageSrc: "/img/kenji/Jump.png", maxFrame: 2 },
-    takeHit: { imageSrc: "/img/TakeHit/Jump.png", maxFrame: 3 },
+    takeHit: { imageSrc: "/img/kenji/TakeHit.png", maxFrame: 3 },
     fall: { imageSrc: "/img/kenji/Fall.png", maxFrame: 2 },
     death: { imageSrc: "/img/kenji/Death.png", maxFrame: 7 },
     jump: { imageSrc: "/img/kenji/Jump.png", maxFrame: 2 },
