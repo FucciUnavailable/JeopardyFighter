@@ -107,7 +107,12 @@ class Fighter extends Sprite {
 
   //attack
   attack() {
-    this.isAttacking = true;
+
+    //prevent character from spam attack (if character is currently attacking return)
+    if (this.image === this.sprites.attack1.image && this.currentFrame < this.sprites.attack1.maxFrame -1){
+      return
+     }
+    this.isAttacking = true
     if(this.isAttacking){
       this.currentFrame = 0
       this.switchSprites("attack1");
@@ -115,7 +120,7 @@ class Fighter extends Sprite {
     //attack pops up for 100ms
     setTimeout(() => {
       this.isAttacking = false;
-    }, 10);
+    }, 100);
   }
 
   switchSprites(spr) {

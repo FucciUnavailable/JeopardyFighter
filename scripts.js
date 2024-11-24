@@ -42,7 +42,7 @@ const player = new Fighter({
   color: "blue",
 
   offset: {
-    x: 0,
+    x: 30,
     y: 157,
   },
   maxFrame: 8,
@@ -71,7 +71,7 @@ const enemy = new Fighter({
     y: 0,
   },
   offset: {
-    x: 0,
+    x: -30,
     y: 170,
   },
   imageSrc: "./img/kenji/Idle.png",
