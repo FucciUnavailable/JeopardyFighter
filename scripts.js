@@ -72,7 +72,7 @@ const enemy = new Fighter({
     y: 0,
   },
   offset: {
-    x: -85,
+    x: -80,
     y: 170,
   },
   imageSrc: "./img/kenji/Idle.png",
@@ -218,8 +218,9 @@ function animate() {
 
     enemy.switchSprites("takeHit")
     enemy.health -= 5;
-    enemyHealth.style.width = enemy.health.toString() + "%";
-  }
+    gsap.to('#enemyHealth', {
+      width: enemy.health + "%"
+    })  }
   //enemy attacks player
   if (
     rectangularCollision({ rectangle1: enemy, rectangle2: player }) &&
@@ -229,7 +230,9 @@ function animate() {
 
     player.switchSprites("takeHit")
     player.health -= 5;
-    playerHealth.style.width = player.health.toString() + "%";
+    gsap.to('#playerHealth', {
+      width: player.health + "%"
+    })
   }
 
   //end game when health reaches 0
