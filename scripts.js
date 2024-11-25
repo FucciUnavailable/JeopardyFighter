@@ -58,6 +58,7 @@ const player = new Fighter({
     attack1: { imageSrc: "./img/samuraiMack/Attack1.png", maxFrame: 6 },
     attack2: { imageSrc: "./img/samuraiMack/Attack2.png", maxFrame: 6 },
   },
+  isDead : false
 });
 
 const enemy = new Fighter({
@@ -89,6 +90,8 @@ const enemy = new Fighter({
     attack1: { imageSrc: "./img/kenji/Attack1.png", maxFrame: 4 },
     attack2: { imageSrc: "./img/kenji/Attack2.png", maxFrame: 4 },
   },
+  isDead : false
+
 });
 //draw enemy and player
 player.draw();
@@ -152,8 +155,8 @@ function animate() {
   c.fillRect(0, 0, canvas.width, canvas.height);
   background.update();
   shop.update();
-  player.update();
-  enemy.update();
+  player.update()
+  enemy.update()
   // enemyAI();
   
   //make sure player and enemy stop moving when key is up
@@ -239,8 +242,15 @@ function animate() {
   if (enemy.health <= 0 || player.health <= 0) {
     determineWinner({ player, enemy, timer });
   }
-
-
+  if(enemy.health <= 0){
+    enemy.isDead = true
+    enemy.switchSprites("death")
+  }
+  if(player.health <= 0){
+    player.isDead = true
+    player.switchSprites("death")
+  }
+  
   
 }
 
@@ -270,6 +280,7 @@ window.addEventListener("keydown", (event) => {
       player.attack();
       break;
   }
+
   switch (event.key) {
     //enemy
 

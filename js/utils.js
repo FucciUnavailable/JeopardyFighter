@@ -18,6 +18,7 @@ function rectangularCollision({ rectangle1, rectangle2 }) {
       displayText.style.display = "flex"
       if(player.health > enemy.health){
         displayText.innerHTML = "PLAYER 1 WINS"
+
       }else if(enemy.health > player.health){
         displayText.innerHTML = "ENEMY WINS"
       }else{
