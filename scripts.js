@@ -6,6 +6,7 @@ const enemyHealth = document.getElementById("enemyHealth");
 canvas.width = 1024;
 canvas.height = 576;
 const displayText = document.querySelector("#displayText");
+const triggerAi = document.querySelector("#triggerAi")
 
 c.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -71,7 +72,7 @@ const enemy = new Fighter({
     y: 0,
   },
   offset: {
-    x: -30,
+    x: -85,
     y: 170,
   },
   imageSrc: "./img/kenji/Idle.png",
@@ -104,6 +105,45 @@ const keys = {
 };
 
 decreaseTimer();
+//messing with AI
+
+function enemyAI() {
+  const distance = Math.abs(player.position.x - enemy.position.x);
+
+  // Define behavior thresholds
+  const attackRange = 100; // Distance within which the enemy can attack
+  const closeRange = 200;  // Distance within which the enemy moves toward the player
+
+  // Reset enemy velocity
+  enemy.velocity.x = 0;
+
+  // Behavior logic
+  if (distance > closeRange) {
+    // Move closer to the player
+    if (player.position.x < enemy.position.x) {
+      enemy.velocity.x = -2; // Move left
+      enemy.switchSprites("run");
+    } else {
+      enemy.velocity.x = 2; // Move right
+      enemy.switchSprites("run");
+    }
+  } else if (distance <= attackRange) {
+    // In attack range
+    if (!enemy.isAttacking) {
+      enemy.attack();
+    }
+  } else {
+    // Idle if neither moving nor attacking
+    enemy.switchSprites("idle");
+  }
+
+  // Jump randomly to add variety (optional)
+  if (Math.random() < 0.01 && enemy.velocity.y === 0) {
+    enemy.velocity.y = -20; // Jump occasionally
+  }
+}
+
+
 
 //animation function
 function animate() {
@@ -114,6 +154,8 @@ function animate() {
   shop.update();
   player.update();
   enemy.update();
+  // enemyAI();
+  
   //make sure player and enemy stop moving when key is up
   player.velocity.x = 0;
   enemy.velocity.x = 0;
@@ -194,6 +236,9 @@ function animate() {
   if (enemy.health <= 0 || player.health <= 0) {
     determineWinner({ player, enemy, timer });
   }
+
+
+  
 }
 
 animate();
