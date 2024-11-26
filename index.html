@@ -1,42 +1,43 @@
 <!DOCTYPE html>
-
+<html lang="en">
 <head>
-    <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fighting Game UI</title>
+    <script src="https://cdn.tailwindcss.com"></script> <!-- Tailwind CDN -->
 </head>
+<body class="bg-black">
 
-<body>
-    <!-- big container -->
-    <div style="position: relative; display: inline-block; ">
-        <!-- health bar and timer -->
-        <div style="position: absolute; display: flex; width: 100%; align-items: center;padding: 20px;">
-            <!-- player health bar -->
-            <div style="position: relative;height: 30px; width: 100%; display: flex; justify-content: flex-end;">
-                <div  style="background-color: yellow;height:100%; width: 100%;"></div>
-                <div id="playerHealth" style="position: absolute; background: blue; top: 0; right: 0; bottom: 0; width: 100%;"></div>
-            </div>            
-            <!-- timer -->
-            <div id="timer" style="background-color: red; height: 100px; width: 100px;flex-shrink: 0; display: flex; align-items: center; justify-content: center;">10</div>
-            <!-- enemy health bar -->
-            <div style="position: relative;height: 30px; width: 100%;">
-                    <div  style="background-color: yellow;height:100% "></div>
-                    <div id="enemyHealth" style="position: absolute; background: blue; top: 0; right: 0; bottom: 0; left: 0;"></div>
+    <!-- Big container -->
+    <div class="relative inline-block w-full h-full">
+        <!-- Health bar and timer -->
+        <div class="absolute flex items-center space-x-6 p-4 w-[1024px] z-10">
+            <!-- Player health bar -->
+            <div class="relative w-full h-8 bg-yellow-500 border-4 border-white rounded-lg shadow-lg overflow-hidden">
+                <div id="playerHealth" class="absolute right-0 bg-gradient-to-l from-blue-500 to-indigo-600 h-full transition-all duration-300 ease-out" style="width: 100%;"></div>
+            </div>
+            
+            <!-- Timer -->
+            <div id="timer" class="flex items-center justify-center w-20 h-20 bg-red-600 border-4 border-white rounded-full text-white text-3xl font-bold shadow-xl animate-pulse">
+                <span>10</span>
+            </div>
+            
+            <!-- Enemy health bar -->
+            <div class="relative w-full h-8 bg-yellow-500 border-4 border-white rounded-lg shadow-lg overflow-hidden">
+                <div id="enemyHealth" class="absolute right-0 bg-gradient-to-l from-blue-500 to-indigo-600 h-full transition-all duration-300 ease-out" style="width: 100%;"></div>
             </div>
         </div>
-        <div id="displayText" style="position: absolute; color: aliceblue; align-items: center; justify-content: center; top: 0; right: 0; left: 0; bottom: 0; display: none;">Tie</div>
-        <canvas></canvas>
+
+        <!-- Display text for end-game message -->
+        <div id="displayText" class="absolute text-white text-4xl font-bold top-0 left-0 right-0 bottom-0 flex items-center justify-center opacity-0">Tie</div>
+        
+        <!-- Canvas for game (1024 x 576) -->
+        <canvas id="gameCanvas" class="absolute top-0 left-0 z-0" width="1024" height="576"></canvas>
     </div>
 
-
-
-
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha512-7eHRwcbYkK4d9g/6tD/mhkf++eoTHwpNM9woBxtPUBWm67zeAfFC+HrdoE2GanKeocly/VxeLvIqwvCdk7qScg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="./js/classes.js"></script>
     <script src="./js/utils.js"></script>
-
     <script src="scripts.js"></script>
-
-
 </body>
-
 </html>
