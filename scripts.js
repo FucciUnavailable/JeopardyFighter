@@ -6,9 +6,38 @@ const enemyHealth = document.getElementById("enemyHealth");
 canvas.width = 1024;
 canvas.height = 576;
 const displayText = document.querySelector("#displayText");
-const triggerAi = document.querySelector("#triggerAi")
-
+const triggerAi = document.querySelector("#triggerAi");
+const healthAndTimer = document.querySelector("#healthAndTimer")
 c.fillRect(0, 0, canvas.width, canvas.height);
+
+
+
+
+
+//countdown before fight starts
+function startCountdown() {
+  const countdownText = document.getElementById("countdownText");
+  const messages = ["Get Ready!", "3", "2", "1", "Fight!"];
+  let index = 0;
+
+  // Display the countdown
+  countdownText.style.opacity = 1;
+
+  const interval = setInterval(() => {
+    if (index < messages.length) {
+      countdownText.textContent = messages[index];
+      index++;
+    } else {
+      // Hide the countdown after it's done
+      countdownText.style.opacity = 0;
+      clearInterval(interval);
+
+      // Start the game or enable user controls here
+    }
+  }, 1000); // 1 second per message
+}
+// Call this function to start the countdown, e.g., on game start
+startCountdown();
 
 //how fast players fall
 const gravity = 0.7;
@@ -28,7 +57,7 @@ const shop = new Sprite({
   scale: 2.5,
   maxFrame: 6,
 });
-//player
+//player character constructor
 const player = new Fighter({
   //initial position of main player
   position: {
@@ -58,9 +87,9 @@ const player = new Fighter({
     attack1: { imageSrc: "./img/samuraiMack/Attack1.png", maxFrame: 6 },
     attack2: { imageSrc: "./img/samuraiMack/Attack2.png", maxFrame: 6 },
   },
-  isDead : false
+  isDead: false,
 });
-
+//enemy character constructor
 const enemy = new Fighter({
   //initial position of enemy
   position: {
@@ -90,13 +119,12 @@ const enemy = new Fighter({
     attack1: { imageSrc: "./img/kenji/Attack1.png", maxFrame: 4 },
     attack2: { imageSrc: "./img/kenji/Attack2.png", maxFrame: 4 },
   },
-  isDead : false
-
+  isDead: false,
 });
 //draw enemy and player
 player.draw();
 enemy.draw();
-
+decreaseTimer();
 //creating key object to not interrupt different movements on keyup vs keydown
 const keys = {
   a: { pressed: false },
@@ -107,72 +135,82 @@ const keys = {
   ArrowUp: { pressed: false },
 };
 
-decreaseTimer();
-//messing with AI
 
+//messing with AI
 function enemyAI() {
   const distance = Math.abs(player.position.x - enemy.position.x);
 
-  // Define behavior thresholds
-  const attackRange = 100; // Distance within which the enemy can attack
-  const closeRange = 200;  // Distance within which the enemy moves toward the player
+  // Behavior thresholds
+  const attackRange = 100;
+  const closeRange = 200;
 
-  // Reset enemy velocity
+  // Reset velocity
   enemy.velocity.x = 0;
 
-  // Behavior logic
-  if (distance > closeRange) {
-    // Move closer to the player
-    if (player.position.x < enemy.position.x) {
-      enemy.velocity.x = -2; // Move left
-      enemy.switchSprites("run");
-    } else {
-      enemy.velocity.x = 2; // Move right
-      enemy.switchSprites("run");
-    }
+  if (enemy.health < 20 && distance > closeRange) {
+    // Retreat when health is low
+    enemy.velocity.x = player.position.x < enemy.position.x ? 2 : -2;
+    enemy.switchSprites("run");
+  } else if (distance > closeRange) {
+    // Move toward the player
+    enemy.velocity.x = player.position.x < enemy.position.x ? -2 : 2;
+    enemy.switchSprites("run");
   } else if (distance <= attackRange) {
-    // In attack range
-    if (!enemy.isAttacking) {
-      enemy.attack();
-    }
+    // Attack player if in range
+    if (!enemy.isAttacking) enemy.attack();
   } else {
-    // Idle if neither moving nor attacking
+    // Idle
     enemy.switchSprites("idle");
   }
 
-  // Jump randomly to add variety (optional)
+  // Optional: Random jumping
   if (Math.random() < 0.01 && enemy.velocity.y === 0) {
-    enemy.velocity.y = -20; // Jump occasionally
+    enemy.velocity.y = -20;
   }
 }
 
 
+//resizing canva based on screen size
+function resizeCanvas() {
+  const scale = Math.min(window.innerWidth / 1024, window.innerHeight / 576);
+  //creating an array for our items to resize
+  let scaleTransform = [healthAndTimer, canvas];
+  for (const item of scaleTransform) { // Use `for...of` to iterate through the elements
+    if (item) { // Ensure item is not null or undefined
+      item.style.transform = `scale(${scale})`;
+      item.style.transformOrigin = "top left";
+    }
+  }
+}
+window.addEventListener("resize", resizeCanvas);
+resizeCanvas(); // Call once to set initial scaling
 
+
+
+//moving background
+let backgroundScrollSpeed = 1;
 //animation function
 function animate() {
   window.requestAnimationFrame(animate);
   c.fillStyle = "black";
   c.fillRect(0, 0, canvas.width, canvas.height);
+
   background.update();
   shop.update();
-  player.update()
-  enemy.update()
+  player.update();
+  enemy.update();
   // enemyAI();
-  
+
   //make sure player and enemy stop moving when key is up
   player.velocity.x = 0;
   enemy.velocity.x = 0;
-  //idle player 
-  if(  player.velocity.x === 0
-  ){
-    player.switchSprites('idle')
-
+  //idle player
+  if (player.velocity.x === 0) {
+    player.switchSprites("idle");
   }
   //idle enemy
-  if(  enemy.velocity.x === 0
-  ){
-    enemy.switchSprites('idle')
-
+  if (enemy.velocity.x === 0) {
+    enemy.switchSprites("idle");
   }
   //player movement animation
   if (keys.a.pressed && player.lastKey === "a") {
@@ -185,10 +223,10 @@ function animate() {
 
   //if player is jumping
   if (player.velocity.y < 0) {
-    player.currentFrame = 0
+    player.currentFrame = 0;
     player.switchSprites("jump");
   } else if (player.velocity.y > 0) {
-    player.currentFrame = 0
+    player.currentFrame = 0;
 
     player.switchSprites("fall");
   }
@@ -203,10 +241,10 @@ function animate() {
   }
   //if enemy is jumping
   if (enemy.velocity.y < 0) {
-    enemy.currentFrame = 0
+    enemy.currentFrame = 0;
     enemy.switchSprites("jump");
   } else if (enemy.velocity.y > 0) {
-    enemy.currentFrame = 0
+    enemy.currentFrame = 0;
 
     enemy.switchSprites("fall");
   }
@@ -217,111 +255,76 @@ function animate() {
     rectangularCollision({ rectangle1: player, rectangle2: enemy }) &&
     player.isAttacking
   ) {
-    player.isAttacking = false
+    player.isAttacking = false;
 
-    enemy.switchSprites("takeHit")
+    enemy.switchSprites("takeHit");
     enemy.health -= 5;
-    gsap.to('#enemyHealth', {
-      width: enemy.health + "%"
-    })  }
+    gsap.to("#enemyHealth", {
+      width: enemy.health + "%",
+    });
+  }
   //enemy attacks player
   if (
     rectangularCollision({ rectangle1: enemy, rectangle2: player }) &&
     enemy.isAttacking
   ) {
-    enemy.isAttacking = false
+    enemy.isAttacking = false;
 
-    player.switchSprites("takeHit")
+    player.switchSprites("takeHit");
     player.health -= 5;
-    gsap.to('#playerHealth', {
-      width: player.health + "%"
-    })
+    gsap.to("#playerHealth", {
+      width: player.health + "%",
+    });
   }
 
   //end game when health reaches 0
   if (enemy.health <= 0 || player.health <= 0) {
     determineWinner({ player, enemy, timer });
   }
-  if(enemy.health <= 0){
-    enemy.isDead = true
-    enemy.switchSprites("death")
+  if (enemy.health <= 0) {
+    enemy.isDead = true;
+    enemy.switchSprites("death");
   }
-  if(player.health <= 0){
-    player.isDead = true
-    player.switchSprites("death")
+  if (player.health <= 0) {
+    player.isDead = true;
+    player.switchSprites("death");
   }
-  
-  
 }
 
 animate();
 
-window.addEventListener("keydown", (event) => {
+const handleKeyPress = (event, isPressed) => {
   switch (event.key) {
-    //player move right
     case "d":
-      keys.d.pressed = true;
-      player.lastKey = "d";
+      keys.d.pressed = isPressed;
+      player.lastKey = isPressed ? "d" : null;
       break;
-    //move left
     case "a":
-      keys.a.pressed = true;
-      player.lastKey = "a";
+      keys.a.pressed = isPressed;
+      player.lastKey = isPressed ? "a" : null;
       break;
-    //jump
     case "w":
-      keys.w.pressed = true;
-      //go up by 10
-
-      player.velocity.y = -20;
-      player.lastKey = "w";
+      if (isPressed) player.velocity.y = -20;
       break;
     case " ":
-      player.attack();
+      if (isPressed) player.attack();
       break;
-  }
-
-  switch (event.key) {
-    //enemy
-
     case "ArrowRight":
-      keys.ArrowRight.pressed = true;
-      enemy.lastKey = "ArrowRight";
+      keys.ArrowRight.pressed = isPressed;
+      enemy.lastKey = isPressed ? "ArrowRight" : null;
       break;
     case "ArrowLeft":
-      keys.ArrowLeft.pressed = true;
-      enemy.lastKey = "ArrowLeft";
+      keys.ArrowLeft.pressed = isPressed;
+      enemy.lastKey = isPressed ? "ArrowLeft" : null;
       break;
     case "ArrowUp":
-      keys.ArrowUp.pressed = true;
-      //go up by 10
-      enemy.velocity.y = -20;
-      enemy.lastKey = "ArrowUp";
+      if (isPressed) enemy.velocity.y = -20;
       break;
     case "ArrowDown":
-      enemy.attack();
+      if (isPressed) enemy.attack();
       break;
   }
-});
+};
 
-window.addEventListener("keyup", (event) => {
-  switch (event.key) {
-    //player key up
-    case "d":
-      keys.d.pressed = false;
-      break;
-    case "a":
-      keys.a.pressed = false;
-      break;
-  }
-  //enemy key up
-
-  switch (event.key) {
-    case "ArrowRight":
-      keys.ArrowRight.pressed = false;
-      break;
-    case "ArrowLeft":
-      keys.ArrowLeft.pressed = false;
-      break;
-  }
-});
+window.addEventListener("keydown", (event) => handleKeyPress(event, true));
+window.addEventListener("keyup", (event) => handleKeyPress(event, false));
