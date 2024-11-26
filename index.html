@@ -3,41 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fighting Game UI</title>
+    <title>Jeopardy Fighter</title>
     <script src="https://cdn.tailwindcss.com"></script> <!-- Tailwind CDN -->
-</head>
-<body class="bg-black">
+    <script>
+        // JavaScript for pop-up toggle and sound control
+        let soundEnabled = true;
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            document.getElementById('soundToggle').innerText = soundEnabled ? "Mute Sound" : "Unmute Sound";
+        }
 
-    <!-- Big container -->
-    <div class="relative inline-block w-full h-full">
-        <!-- Health bar and timer -->
-        <div class="absolute flex items-center space-x-6 p-4 w-[1024px] z-10">
-            <!-- Player health bar -->
-            <div class="relative w-full h-8 bg-yellow-500 border-4 border-white rounded-lg shadow-lg overflow-hidden">
-                <div id="playerHealth" class="absolute right-0 bg-gradient-to-l from-blue-500 to-indigo-600 h-full transition-all duration-300 ease-out" style="width: 100%;"></div>
-            </div>
+        function openPopup() {
+            document.getElementById('difficultyPopup').classList.remove('hidden');
+        }
+
+        function closePopup() {
+            document.getElementById('difficultyPopup').classList.add('hidden');
+        }
+
+        function startGame(difficulty) {
+            alert('Starting game with difficulty: ' + difficulty);
+            closePopup();
+        }
+    </script>
+</head>
+<body class="bg-gray-900 text-white">
+
+    <!-- Welcome Page Content -->
+    <div class="flex flex-col items-center justify-center h-screen">
+
+        <!-- Title -->
+        <h1 class="text-6xl font-bold text-center mb-10">Jeopardy Fighter</h1>
+
+        <!-- Character Icons -->
+        <div class="flex space-x-6 mb-6">
+            <img src="character1.png" alt="Character 1" class="w-24 h-24 cursor-pointer">
+            <img src="character2.png" alt="Character 2" class="w-24 h-24 cursor-pointer">
+            <img src="character3.png" alt="Character 3" class="w-24 h-24 cursor-pointer">
+        </div>
+
+        <!-- Buttons for starting a game and sound toggle -->
+        <div class="flex flex-col items-center space-y-4">
+            <a href="./game.html"> <button class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-lg text-xl" onclick="alert('Starting a new game!')">New Game</button></a>
             
-            <!-- Timer -->
-            <div id="timer" class="flex items-center justify-center w-20 h-20 bg-red-600 border-4 border-white rounded-full text-white text-3xl font-bold shadow-xl animate-pulse">
-                <span>10</span>
-            </div>
-            
-            <!-- Enemy health bar -->
-            <div class="relative w-full h-8 bg-yellow-500 border-4 border-white rounded-lg shadow-lg overflow-hidden">
-                <div id="enemyHealth" class="absolute right-0 bg-gradient-to-l from-blue-500 to-indigo-600 h-full transition-all duration-300 ease-out" style="width: 100%;"></div>
+            <!-- Play against AI button -->
+            <button class="bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded-lg text-xl" onclick="openPopup()">Play Against AI</button>
+
+            <!-- Sound toggle -->
+            <button id="soundToggle" class="bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded-lg text-xl" onclick="toggleSound()">Mute Sound</button>
+        </div>
+
+        <!-- Difficulty Selection Popup -->
+        <div id="difficultyPopup" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+            <div class="bg-gray-800 p-8 rounded-lg text-center space-y-4">
+                <h2 class="text-3xl font-semibold">Choose Difficulty</h2>
+                <div class="flex space-x-4">
+                    <button class="bg-yellow-500 hover:bg-yellow-700 py-2 px-4 rounded-lg text-xl" onclick="startGame('Easy')">Easy</button>
+                    <button class="bg-orange-500 hover:bg-orange-700 py-2 px-4 rounded-lg text-xl" onclick="startGame('Medium')">Medium</button>
+                    <button class="bg-red-500 hover:bg-red-700 py-2 px-4 rounded-lg text-xl" onclick="startGame('Hard')">Hard</button>
+                </div>
+                <button class="mt-4 bg-gray-600 hover:bg-gray-800 py-2 px-4 rounded-lg text-xl" onclick="closePopup()">Close</button>
             </div>
         </div>
 
-        <!-- Display text for end-game message -->
-        <div id="displayText" class="absolute text-white text-4xl font-bold top-0 left-0 right-0 bottom-0 flex items-center justify-center opacity-0">Tie</div>
-        
-        <!-- Canvas for game (1024 x 576) -->
-        <canvas id="gameCanvas" class="absolute top-0 left-0 z-0" width="1024" height="576"></canvas>
     </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="./js/classes.js"></script>
-    <script src="./js/utils.js"></script>
-    <script src="scripts.js"></script>
+    
 </body>
 </html>

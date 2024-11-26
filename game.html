@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fighting Game UI</title>
+    <script src="https://cdn.tailwindcss.com"></script> <!-- Tailwind CDN -->
+</head>
+<body class="bg-black">
+
+    <!-- Big container -->
+    <div class="relative inline-block w-full h-full">
+        <!-- Health bar and timer -->
+        <div class="absolute flex items-center space-x-6 p-4 w-[1024px] z-10">
+            <!-- Player health bar -->
+            <div class="relative w-full h-8 bg-yellow-500 border-4 border-white rounded-lg shadow-lg overflow-hidden">
+                <div id="playerHealth" class="absolute right-0 bg-gradient-to-l from-blue-500 to-indigo-600 h-full transition-all duration-300 ease-out" style="width: 100%;"></div>
+            </div>
+            
+            <!-- Timer -->
+            <div id="timer" class="flex items-center justify-center w-20 h-20 bg-red-600 border-4 border-white rounded-full text-white text-3xl font-bold shadow-xl animate-pulse">
+                <span>10</span>
+            </div>
+            
+            <!-- Enemy health bar -->
+            <div class="relative w-full h-8 bg-yellow-500 border-4 border-white rounded-lg shadow-lg overflow-hidden">
+                <div id="enemyHealth" class="absolute right-0 bg-gradient-to-l from-blue-500 to-indigo-600 h-full transition-all duration-300 ease-out" style="width: 100%;"></div>
+            </div>
+        </div>
+
+        <!-- Display text for end-game message -->
+        <div id="displayText" class="absolute text-white text-4xl font-bold top-0 left-0 right-0 bottom-0 flex items-center justify-center opacity-0">Tie</div>
+        
+        <!-- Canvas for game (1024 x 576) -->
+        <canvas id="gameCanvas" class="absolute top-0 left-0 z-0" width="1024" height="576"></canvas>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="./js/classes.js"></script>
+    <script src="./js/utils.js"></script>
+    <script src="scripts.js"></script>
+</body>
+</html>
