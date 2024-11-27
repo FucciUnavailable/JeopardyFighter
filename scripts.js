@@ -8,9 +8,9 @@ canvas.height = 576;
 const displayText = document.querySelector("#displayText");
 const triggerAi = document.querySelector("#triggerAi");
 const healthAndTimer = document.querySelector("#healthAndTimer")
-c.fillRect(0, 0, canvas.width, canvas.height);
-
-
+// Get the mode from the URL
+const urlParams = new URLSearchParams(window.location.search);
+const gameMode = urlParams.get("mode"); // 'ai' or 'player'
 
 
 
@@ -136,7 +136,7 @@ const keys = {
 };
 
 
-//messing with AI
+// //messing with AI
 function enemyAI() {
   const distance = Math.abs(player.position.x - enemy.position.x);
 
@@ -165,7 +165,7 @@ function enemyAI() {
 
   // Optional: Random jumping
   if (Math.random() < 0.01 && enemy.velocity.y === 0) {
-    enemy.velocity.y = -20;
+    enemy.velocity.y = -15;
   }
 }
 
@@ -199,7 +199,9 @@ function animate() {
   shop.update();
   player.update();
   enemy.update();
-  // enemyAI();
+  if(gameMode){
+    enemyAI()
+  }
 
   //make sure player and enemy stop moving when key is up
   player.velocity.x = 0;

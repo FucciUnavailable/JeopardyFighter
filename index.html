@@ -44,7 +44,7 @@
 
         <!-- Buttons for starting a game and sound toggle -->
         <div class="flex flex-col items-center space-y-4">
-            <a href="./game.html"> <button class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-lg text-xl" onclick="alert('Starting a new game!')">New Game</button></a>
+            <a href="./game.html"> <button class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-lg text-xl" onclick="alert('Starting a new game!')">New Game LAN</button></a>
             
             <!-- Play against AI button -->
             <button class="bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded-lg text-xl" onclick="openPopup()">Play Against AI</button>
@@ -58,9 +58,9 @@
             <div class="bg-gray-800 p-8 rounded-lg text-center space-y-4">
                 <h2 class="text-3xl font-semibold">Choose Difficulty</h2>
                 <div class="flex space-x-4">
-                    <button class="bg-yellow-500 hover:bg-yellow-700 py-2 px-4 rounded-lg text-xl" onclick="startGame('Easy')">Easy</button>
-                    <button class="bg-orange-500 hover:bg-orange-700 py-2 px-4 rounded-lg text-xl" onclick="startGame('Medium')">Medium</button>
-                    <button class="bg-red-500 hover:bg-red-700 py-2 px-4 rounded-lg text-xl" onclick="startGame('Hard')">Hard</button>
+                   <a href="./game.html?mode=easyBot"> <button id="easyBot" class="bg-yellow-500 hover:bg-yellow-700 py-2 px-4 rounded-lg text-xl" onclick="startGame('Easy')">Easy</button></a>
+                   <a href="./game.html?mode=mediumBot"><button id="mediumBot" class="bg-orange-500 hover:bg-orange-700 py-2 px-4 rounded-lg text-xl" onclick="startGame('Medium')">Medium</button></a>
+                   <a href="./game.html?mode=hardBot"><button id="hardBot" class="bg-red-500 hover:bg-red-700 py-2 px-4 rounded-lg text-xl" onclick="startGame('Hard')">Hard</button></a>
                 </div>
                 <button class="mt-4 bg-gray-600 hover:bg-gray-800 py-2 px-4 rounded-lg text-xl" onclick="closePopup()">Close</button>
             </div>
