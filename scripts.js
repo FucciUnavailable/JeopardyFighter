@@ -215,10 +215,10 @@ function animate() {
     enemy.switchSprites("idle");
   }
   //player movement animation
-  if (keys.a.pressed && player.lastKey === "a") {
+  if (keys.a.pressed && player.lastKey === "a" && !player.isDead) {
     player.velocity.x = -5; //5fps
     player.switchSprites("run");
-  } else if (keys.d.pressed && player.lastKey === "d") {
+  } else if (keys.d.pressed && player.lastKey === "d" && !player.isDead) {
     player.velocity.x = 5; //5fps
     player.switchSprites("run");
   }
@@ -234,10 +234,10 @@ function animate() {
   }
 
   //enemy movement animation
-  if (keys.ArrowLeft.pressed && enemy.lastKey === "ArrowLeft") {
+  if (keys.ArrowLeft.pressed && enemy.lastKey === "ArrowLeft" && !enemy.isDead) {
     enemy.velocity.x = -5; //5fps
     enemy.switchSprites("run");
-  } else if (keys.ArrowRight.pressed && enemy.lastKey === "ArrowRight") {
+  } else if (keys.ArrowRight.pressed && enemy.lastKey === "ArrowRight" && !enemy.isDead) {
     enemy.velocity.x = 5; //5fps
     enemy.switchSprites("run");
   }
@@ -255,7 +255,7 @@ function animate() {
   //player attacks enemy
   if (
     rectangularCollision({ rectangle1: player, rectangle2: enemy }) &&
-    player.isAttacking
+    player.isAttacking && !player.isDead
   ) {
     player.isAttacking = false;
 
@@ -268,7 +268,7 @@ function animate() {
   //enemy attacks player
   if (
     rectangularCollision({ rectangle1: enemy, rectangle2: player }) &&
-    enemy.isAttacking
+    enemy.isAttacking && !enemy.isDead
   ) {
     enemy.isAttacking = false;
 
@@ -306,10 +306,10 @@ const handleKeyPress = (event, isPressed) => {
       player.lastKey = isPressed ? "a" : null;
       break;
     case "w":
-      if (isPressed) player.velocity.y = -20;
+      if (isPressed && !player.isDead) player.velocity.y = -20;
       break;
     case " ":
-      if (isPressed) player.attack();
+      if (isPressed && !player.isDead) player.attack();
       break;
     case "ArrowRight":
       keys.ArrowRight.pressed = isPressed;
@@ -320,10 +320,10 @@ const handleKeyPress = (event, isPressed) => {
       enemy.lastKey = isPressed ? "ArrowLeft" : null;
       break;
     case "ArrowUp":
-      if (isPressed) enemy.velocity.y = -20;
+      if (isPressed && !enemy.isDead) enemy.velocity.y = -20;
       break;
     case "ArrowDown":
-      if (isPressed) enemy.attack();
+      if (isPressed && !enemy.isDead) enemy.attack();
       break;
   }
 };
