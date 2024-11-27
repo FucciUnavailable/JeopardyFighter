@@ -14,30 +14,6 @@ const gameMode = urlParams.get("mode"); // 'ai' or 'player'
 
 
 
-//countdown before fight starts
-function startCountdown() {
-  const countdownText = document.getElementById("countdownText");
-  const messages = ["Get Ready!", "3", "2", "1", "Fight!"];
-  let index = 0;
-
-  // Display the countdown
-  countdownText.style.opacity = 1;
-
-  const interval = setInterval(() => {
-    if (index < messages.length) {
-      countdownText.textContent = messages[index];
-      index++;
-    } else {
-      // Hide the countdown after it's done
-      countdownText.style.opacity = 0;
-      clearInterval(interval);
-
-      // Start the game or enable user controls here
-    }
-  }, 1000); // 1 second per message
-}
-// Call this function to start the countdown, e.g., on game start
-startCountdown();
 
 //how fast players fall
 const gravity = 0.7;
@@ -186,7 +162,8 @@ window.addEventListener("resize", resizeCanvas);
 resizeCanvas(); // Call once to set initial scaling
 
 
-
+var gameOver = false
+var gameStart = false
 //moving background
 let backgroundScrollSpeed = 1;
 //animation function
@@ -222,6 +199,13 @@ function animate() {
     player.velocity.x = 5; //5fps
     player.switchSprites("run");
   }
+
+  // if (player.position.x <= 0) {
+  //   player.position.x = - player.width; // Prevent moving beyond the left boundary
+  // } else if (player.position.x + player.width > canvas.width) {
+  //   player.position.x = canvas.width - player.width; // Prevent moving beyond the right boundary
+  // }
+  
 
   //if player is jumping
   if (player.velocity.y < 0) {
@@ -292,9 +276,8 @@ function animate() {
     player.switchSprites("death");
   }
 }
-
-animate();
-
+animate()
+//key handling events
 const handleKeyPress = (event, isPressed) => {
   switch (event.key) {
     case "d":
@@ -327,6 +310,31 @@ const handleKeyPress = (event, isPressed) => {
       break;
   }
 };
-
 window.addEventListener("keydown", (event) => handleKeyPress(event, true));
 window.addEventListener("keyup", (event) => handleKeyPress(event, false));
+
+//countdown before fight starts
+function startCountdown() {
+  const countdownText = document.getElementById("countdownText");
+  const messages = ["Get Ready!", "3", "2", "1", "Fight!"];
+  let index = 0;
+
+  // Display the countdown
+  countdownText.style.opacity = 1;
+
+  const newinterval = setInterval(() => {
+    if (index < messages.length) {
+      countdownText.textContent = messages[index];
+      index++;
+    } else {
+      // Hide the countdown after it's done
+      countdownText.style.opacity = 0;
+      clearInterval(newinterval);
+      gameStart = true
+
+
+    }
+  }, 1000); // 1 second per message
+}
+// Call this function to start the countdown, e.g., on game start
+startCountdown();
