@@ -133,14 +133,14 @@ function enemyAI() {
     enemy.switchSprites("run");
   } else if (distance <= attackRange) {
     // Attack player if in range
-    if (!enemy.isAttacking) enemy.attack();
+    if (!enemy.isAttacking && Math.random() < 0.01 ) enemy.attack();
   } else {
     // Idle
     enemy.switchSprites("idle");
   }
 
   // Optional: Random jumping
-  if (Math.random() < 0.01 && enemy.velocity.y === 0) {
+  if (Math.random() < 0.01 && enemy.velocity.y === 0 && !enemy.isDead) {
     enemy.velocity.y = -15;
   }
 }
@@ -296,18 +296,20 @@ const handleKeyPress = (event, isPressed) => {
       if (isPressed && !player.isDead) player.attack();
       break;
     case "ArrowRight":
+      if(!gameMode){
       keys.ArrowRight.pressed = isPressed;
-      enemy.lastKey = isPressed ? "ArrowRight" : null;
+      enemy.lastKey = isPressed ? "ArrowRight" : null;}
       break;
     case "ArrowLeft":
+      if(!gameMode){
       keys.ArrowLeft.pressed = isPressed;
-      enemy.lastKey = isPressed ? "ArrowLeft" : null;
+      enemy.lastKey = isPressed ? "ArrowLeft" : null;}
       break;
     case "ArrowUp":
-      if (isPressed && !enemy.isDead) enemy.velocity.y = -20;
+      if (isPressed && !enemy.isDead && !gameMode) enemy.velocity.y = -20;
       break;
     case "ArrowDown":
-      if (isPressed && !enemy.isDead) enemy.attack();
+      if (isPressed && !enemy.isDead && !gameMode) enemy.attack();
       break;
   }
 };
