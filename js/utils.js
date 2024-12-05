@@ -32,6 +32,8 @@ function rectangularCollision({ rectangle1, rectangle2 }) {
   let timerId
   //timer function
   function decreaseTimer() {
+    if (isPaused) return
+      
     if(time >0){
       timerId = setTimeout(decreaseTimer, 1000)
       time --

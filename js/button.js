@@ -10,6 +10,7 @@ const togglePause = () => {
     } else {
         pauseButton.textContent = "Pause";
         animate()
+        decreaseTimer()
     }
 };
 
