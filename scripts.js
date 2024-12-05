@@ -162,8 +162,7 @@ window.addEventListener("resize", resizeCanvas);
 resizeCanvas(); // Call once to set initial scaling
 
 
-//moving background
-let backgroundScrollSpeed = 1;
+
 //animation function
 function animate() {
   if (isPaused) return
@@ -276,10 +275,10 @@ function animate() {
   }
 }
   
-animate()
 //key handling events
 const handleKeyPress = (event, isPressed) => {
   if (isPaused) return
+  if(gameOver) return
 
   switch (event.key) {
     case "d":
@@ -339,4 +338,10 @@ function startCountdown() {
   }, 1000); // 1 second per message
 }
 // Call this function to start the countdown, e.g., on game start
-startCountdown();
+
+
+
+animate(); //start animating
+startCountdown(); //start counting down
+
+

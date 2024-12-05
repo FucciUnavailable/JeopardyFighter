@@ -1,3 +1,7 @@
+let gameOver = false
+
+
+
 //collision function
 function rectangularCollision({ rectangle1, rectangle2 }) {
     return (
@@ -27,19 +31,20 @@ function rectangularCollision({ rectangle1, rectangle2 }) {
     
   }
   
-  
+  //GAME TIMER HERE
   let time = 60
   let timerId
   //timer function
   function decreaseTimer() {
     if (isPaused) return
-      
+
     if(time >0){
       timerId = setTimeout(decreaseTimer, 1000)
       time --
       timer.innerHTML = time
     }
     if (timer === 0){
+      gameOver = true
       determineWinner({player,enemy, timerId})
     }
   
