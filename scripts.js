@@ -162,12 +162,11 @@ window.addEventListener("resize", resizeCanvas);
 resizeCanvas(); // Call once to set initial scaling
 
 
-var gameOver = false
-var gameStart = false
 //moving background
 let backgroundScrollSpeed = 1;
 //animation function
 function animate() {
+  if (isPaused) return
   window.requestAnimationFrame(animate);
   c.fillStyle = "black";
   c.fillRect(0, 0, canvas.width, canvas.height);
@@ -276,9 +275,12 @@ function animate() {
     player.switchSprites("death");
   }
 }
+  
 animate()
 //key handling events
 const handleKeyPress = (event, isPressed) => {
+  if (isPaused) return
+
   switch (event.key) {
     case "d":
       keys.d.pressed = isPressed;

@@ -36,11 +36,7 @@
                     style="width: 100%;"></div>
             </div>
         </div>
-        <!-- Countdown Text -->
-        <div id="countdownText"
-            class="absolute text-white text-6xl font-bold top-0 left-0 right-0 bottom-0 flex items-center justify-center opacity-0 z-10">
-            Get Ready!
-        </div>
+
 
         <!-- Display text for end-game message -->
         <div id="displayText"
@@ -51,12 +47,24 @@
         <canvas id="gameCanvas" class="absolute top-0 left-0 z-0" width="1024" height="576"></canvas>
     
     </div>
+        <!-- Countdown Text -->
+        <div id="countdownText"
+            class="absolute text-white text-6xl font-bold top-0 left-0 right-0 bottom-0 flex items-center justify-center opacity-0 z-10">
+            Get Ready!
+        </div>
+        <!-- Pause Button -->
+<button id="pauseButton" class="absolute bottom-10 right-10 bg-red-500 text-white px-4 py-2 rounded-full shadow-lg z-20">
+    Pause
+</button>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" crossorigin="anonymous"
         referrerpolicy="no-referrer"></script>
+    <script src="./js/button.js"></script>
     <script src="./js/classes.js"></script>
     <script src="./js/utils.js"></script>
     <script src="scripts.js"></script>
+
+
 </body>
 
 </html>
