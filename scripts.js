@@ -113,7 +113,6 @@ const keys = {
 };
 
 
-// //messing with AI
 function enemyAI() {
   const distance = Math.abs(player.position.x - enemy.position.x);
 
@@ -121,23 +120,31 @@ function enemyAI() {
   const attackRange = 100;
   const closeRange = 200;
 
-  // Reset velocity
-  enemy.velocity.x = 0;
-
   if (enemy.health < 20 && distance > closeRange) {
     // Retreat when health is low
-    enemy.velocity.x = player.position.x < enemy.position.x ? 2 : -2;
+    if (player.position.x < enemy.position.x) {
+      enemy.velocity.x = 2;  // Move right
+    } else {
+      enemy.velocity.x = -2; // Move left
+    }
     enemy.switchSprites("run");
   } else if (distance > closeRange) {
     // Move toward the player
-    enemy.velocity.x = player.position.x < enemy.position.x ? -2 : 2;
+    if (player.position.x < enemy.position.x) {
+      enemy.velocity.x = -20; // Move left
+    } else {
+      enemy.velocity.x = 2;  // Move right
+    }
     enemy.switchSprites("run");
   } else if (distance <= attackRange) {
     // Attack player if in range
-    if (!enemy.isAttacking && Math.random() < 0.01 ) enemy.attack();
+    if (!enemy.isAttacking && Math.random() < 0.01 ) {
+      enemy.attack();
+    }
   } else {
     // Idle
     enemy.switchSprites("idle");
+    enemy.velocity.x = 0; // Ensure the enemy stops moving when idle
   }
 
   // Optional: Random jumping
@@ -145,6 +152,7 @@ function enemyAI() {
     enemy.velocity.y = -15;
   }
 }
+
 
 
 /* RESIZE CANVAS FUNCTION */
@@ -173,6 +181,7 @@ function animate() {
   window.requestAnimationFrame(animate);
   c.fillStyle = "black";
   c.fillRect(0, 0, canvas.width, canvas.height);
+ //make sure player and enemy stop moving when key is up
 
   background.update();
   shop.update();
@@ -180,11 +189,12 @@ function animate() {
   enemy.update();
   if(gameMode){
     enemyAI()
+ 
   }
-
-  //make sure player and enemy stop moving when key is up
+ 
   player.velocity.x = 0;
   enemy.velocity.x = 0;
+ 
   //idle player
   if (player.velocity.x === 0) {
     player.switchSprites("idle");
@@ -226,14 +236,16 @@ function animate() {
   } else if (keys.ArrowRight.pressed && enemy.lastKey === "ArrowRight" && !enemy.isDead) {
     enemy.velocity.x = 5; //5fps
     enemy.switchSprites("run");
+  }else{
+    
   }
+
   //if enemy is jumping
   if (enemy.velocity.y < 0) {
     enemy.currentFrame = 0;
     enemy.switchSprites("jump");
   } else if (enemy.velocity.y > 0) {
     enemy.currentFrame = 0;
-
     enemy.switchSprites("fall");
   }
 
