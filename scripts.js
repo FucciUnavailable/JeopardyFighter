@@ -115,7 +115,19 @@ const keys = {
 
 function enemyAI() {
   const distance = Math.abs(player.position.x - enemy.position.x);
+  let speed = {
+    easy: 2,
+    medium:3,
+    hard:5
+  }
+  const multiplier = (mode) => {
+    switch(mode){
+      case "easyBot": return speed.easy
+      case "mediumBot": return speed.medium
+      case "hardBot": return speed.hard
+    }
 
+  }
   // Behavior thresholds
   const attackRange = 100;
   const closeRange = 200;
@@ -123,17 +135,17 @@ function enemyAI() {
   if (enemy.health < 20 && distance > closeRange) {
     // Retreat when health is low
     if (player.position.x < enemy.position.x) {
-      enemy.velocity.x = 2;  // Move right
+      enemy.velocity.x = multiplier(gameMode);  // Move right
     } else {
-      enemy.velocity.x = -2; // Move left
+      enemy.velocity.x = - multiplier(gameMode); // Move left
     }
     enemy.switchSprites("run");
   } else if (distance > closeRange) {
     // Move toward the player
     if (player.position.x < enemy.position.x) {
-      enemy.velocity.x = -20; // Move left
+      enemy.velocity.x = - multiplier(gameMode); // Move left
     } else {
-      enemy.velocity.x = 2;  // Move right
+      enemy.velocity.x = multiplier(gameMode);  // Move right
     }
     enemy.switchSprites("run");
   } else if (distance <= attackRange) {
@@ -187,13 +199,14 @@ function animate() {
   shop.update();
   player.update();
   enemy.update();
+  enemy.velocity.x = 0;
   if(gameMode){
     enemyAI()
  
   }
  
   player.velocity.x = 0;
-  enemy.velocity.x = 0;
+ 
  
   //idle player
   if (player.velocity.x === 0) {
