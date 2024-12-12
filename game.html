@@ -1,70 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Fighting Game UI</title>
-    <script src="https://cdn.tailwindcss.com"></script> <!-- Tailwind CDN -->
-</head>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tailwind CDN -->
+  </head>
 
-<body class="bg-black">
-
-    <!-- Big container -->
-    <div class="relative inline-block w-full h-full">
-
+  <body class="bg-black h-screen flex flex-col items-center justify-start">
+    <!-- Main container -->
+    <div class="flex flex-col items-center w-full max-w-[1024px]">
+      <!-- Canvas container -->
+      <div class="relative">
         <!-- Health bar and timer -->
-        <div id="healthAndTimer" class="absolute flex items-center space-x-6 p-4 w-[1024px] z-10">
-            <!-- Player health bar -->
-            <div class="relative w-full h-8 bg-yellow-500 border-4 border-white rounded-lg shadow-lg overflow-hidden">
-                <div id="playerHealth"
-                    class="absolute right-0 bg-gradient-to-l from-blue-500 to-indigo-600 h-full transition-all duration-300 ease-out"
-                    style="width: 100%;"></div>
-            </div>
-
-            <!-- Timer -->
-            <div id="timer"
-                class="flex items-center justify-center w-20 h-20 bg-red-600 border-4 border-white rounded-full text-white text-3xl font-bold shadow-xl animate-pulse">
-                <span>10</span>
-            </div>
-
-            <!-- Enemy health bar -->
-            <div id="enemyBar"
-                class="relative w-full h-8 bg-yellow-500 border-4 border-white rounded-lg shadow-lg overflow-hidden">
-                <div id="enemyHealth"
-                    class="absolute left-0 bg-gradient-to-l from-blue-500 to-indigo-600 h-full transition-all duration-300 ease-out"
-                    style="width: 100%;"></div>
-            </div>
-        </div>
-
-
-        <!-- Display text for end-game message -->
-        <div id="displayText"
-            class="absolute text-white text-4xl font-bold top-0 left-0 right-0 bottom-0 flex items-center justify-center opacity-0">
-            Tie</div>
+        <div
+          id="healthAndTimer"
+          class="absolute flex items-center justify-between w-full p-4 z-10"
+        >
+          <!-- Player health bar -->
+          <div
+            class="relative w-1/3 h-8 bg-yellow-500 border-4 border-white rounded-lg shadow-lg overflow-hidden"
+          >
+            <div
+              id="playerHealth"
+              class="absolute right-0 bg-gradient-to-l from-blue-500 to-indigo-600 h-full transition-all duration-300 ease-out"
+              style="width: 100%"
+            ></div>
+          </div>
   
-        <!-- Canvas for game (1024 x 576) -->
-        <canvas id="gameCanvas" class="absolute top-0 left-0 z-0" width="1024" height="576"></canvas>
-    
-    </div>
-        <!-- Countdown Text -->
-        <div id="countdownText"
-            class="absolute text-white text-6xl font-bold top-0 left-0 right-0 bottom-0 flex items-center justify-center opacity-0 z-10">
-            Get Ready!
+          <!-- Timer -->
+          <div
+            id="timer"
+            class="flex items-center justify-center w-20 h-20 bg-red-600 border-4 border-white rounded-full text-white text-3xl font-bold shadow-xl animate-pulse"
+          >
+            <span>10</span>
+          </div>
+  
+          <!-- Enemy health bar -->
+          <div
+            id="enemyBar"
+            class="relative w-1/3 h-8 bg-yellow-500 border-4 border-white rounded-lg shadow-lg overflow-hidden"
+          >
+            <div
+              id="enemyHealth"
+              class="absolute left-0 bg-gradient-to-l from-blue-500 to-indigo-600 h-full transition-all duration-300 ease-out"
+              style="width: 100%"
+            ></div>
+          </div>
         </div>
-        <!-- Pause Button -->
-<button id="pauseButton" class="absolute bottom-10 right-10 bg-red-500 text-white px-4 py-2 rounded-full shadow-lg z-20">
-    Pause
-</button>
+  
+        <!-- Canvas -->
+        <canvas
+          id="gameCanvas"
+          class="z-0"
+          width="1024"
+          height="576"
+        ></canvas>
+      </div>
+  
+      <!-- Buttons -->
+      <div
+        id="Buttons"
+        class="flex flex-row flex-wrap justify-center gap-4 p-4 mt-4 bg-gray-800 rounded-lg shadow-lg"
+      >
+        <button
+          id="pauseButton"
+          class="bg-red-500 hover:bg-red-700 text-white px-6 py-3 rounded-lg shadow-lg transition-all"
+        >
+          Pause
+        </button>
+        <button
+          id="HowToPlay"
+          class="bg-blue-500 hover:bg-blue-700 text-white px-6 py-3 rounded-lg shadow-lg transition-all"
+        >
+          How To Play
+        </button>
+        <button
+          id="noQuestions"
+          class="bg-green-500 hover:bg-green-700 text-white px-6 py-3 rounded-lg shadow-lg transition-all"
+        >
+          No Questions
+        </button>
+        <button
+        id="menu"
+        class="bg-black hover:bg-green-700 text-white px-6 py-3 rounded-lg shadow-lg transition-all"
+      >
+        Menu
+      </button>
+      </div>
+    </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" crossorigin="anonymous"
-        referrerpolicy="no-referrer"></script>
-    <script src="./js/button.js"></script>
-    <script src="./js/classes.js"></script>
-    <script src="./js/utils.js"></script>
-    <script src="scripts.js"></script>
-
-
-</body>
-
+    <script
+src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"
+crossorigin="anonymous"
+referrerpolicy="no-referrer"
+></script>
+<script src="./js/button.js"></script>
+<script src="./js/classes.js"></script>
+<script src="./js/utils.js"></script>
+<script src="scripts.js"></script>
+<script src="questions.js"></script>
+  </body>
+  
 </html>
+

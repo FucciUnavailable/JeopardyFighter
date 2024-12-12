@@ -3,10 +3,11 @@ const c = canvas.getContext("2d");
 const timer = document.getElementById("timer");
 const playerHealth = document.getElementById("playerHealth");
 const enemyHealth = document.getElementById("enemyHealth");
-canvas.width = 1024;
-canvas.height = 576;
+canvas.style.width = "100%";
+canvas.style.height = "auto";
+
 const displayText = document.querySelector("#displayText");
-const triggerAi = document.querySelector("#triggerAi");
+const triggerAi = document.querySelector("#triggerAi")  ;
 const healthAndTimer = document.querySelector("#healthAndTimer")
 // Get the mode from the URL
 const urlParams = new URLSearchParams(window.location.search);
@@ -146,20 +147,23 @@ function enemyAI() {
 }
 
 
-//resizing canva based on screen size
-function resizeCanvas() {
-  const scale = Math.min(window.innerWidth / 1024, window.innerHeight / 576);
-  //creating an array for our items to resize
-  let scaleTransform = [healthAndTimer, canvas];
-  for (const item of scaleTransform) { // Use `for...of` to iterate through the elements
-    if (item) { // Ensure item is not null or undefined
-      item.style.transform = `scale(${scale})`;
-      item.style.transformOrigin = "top left";
-    }
-  }
-}
-window.addEventListener("resize", resizeCanvas);
-resizeCanvas(); // Call once to set initial scaling
+/* RESIZE CANVAS FUNCTION */
+// function resizeCanvas() {
+//   const aspectRatio = 1024 / 576;
+//   const width = window.innerWidth;
+//   const height = window.innerHeight;
+  
+//   if (width / height > aspectRatio) {
+//       canvas.width = height * aspectRatio;
+//       canvas.height = height;
+//   } else {
+//       canvas.width = width;
+//       canvas.height = width / aspectRatio;
+//   }
+// }
+// window.addEventListener("resize", resizeCanvas);
+// resizeCanvas();
+
 
 
 

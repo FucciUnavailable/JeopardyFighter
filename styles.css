@@ -1,20 +1,30 @@
-* {
-    box-sizing: border-box;
-}
-
-#pauseButton {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: #333;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-#pauseButton:hover {
-    background-color: #555;
-}
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+  }
+  
+  canvas {
+    display: block;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 1024px; /* Keeps canvas responsive */
+    height: auto; /* Maintains aspect ratio */
+  }
+  
+  #Buttons {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+    background-color: rgba(30, 30, 30, 0.9);
+    padding: 16px;
+    border-radius: 8px;
+  }
+  canvas {
+    display: block; /* Prevent scrollbars */
+    margin: 0 auto; /* Center align */
+    position: relative; /* Ensure layering consistency */
+  }
+  
