@@ -106,45 +106,75 @@
       </div>
 
       <!-- Buttons -->
-      <div
-        id="Buttons"
-        class="flex flex-row flex-wrap justify-center gap-4 p-4 mt-4 bg-gray-800 rounded-lg shadow-lg"
-      >
-        <button
-          id="pauseButton"
-          class="bg-red-500 hover:bg-red-700 text-white px-6 py-3 rounded-lg shadow-lg transition-all"
-        >
-          Pause
-        </button>
-        <button
-          id="howToPlayBtn"
-          class="bg-blue-500 hover:bg-blue-700 text-white px-6 py-3 rounded-lg shadow-lg transition-all"
-        >
-          How To Play
-        </button>
-        <button
-          id="trumpCard"
-          class="bg-green-500 hover:bg-green-700 text-white px-6 py-3 rounded-lg shadow-lg transition-all"
-          onclick="showTrumpCardModal()"
-        >
-          Trump Card
-        </button>
-        <a href="index.html"
-          ><button
-            id="menu"
-            class="bg-black hover:bg-green-700 text-white px-6 py-3 rounded-lg shadow-lg transition-all"
-          >
-            Menu
-          </button></a>
-        <button
-          id="muteSound"
-          class="bg-red-500 hover:bg-red-700 text-white px-6 py-3 rounded-lg shadow-lg transition-all"
-          onclick="toggleSound()"
-        >
-          🔇
-        </button>
-      </div>
-    </div>
+<!-- Buttons -->
+<div
+  id="Buttons"
+  class="flex flex-row flex-wrap justify-center gap-4 p-4 mt-4 bg-gray-900 border-2 border-red-600 rounded-lg shadow-2xl"
+>
+  <button
+    id="pauseButton"
+    class="samurai-button bg-gradient-to-br from-red-800 via-red-600 to-red-800"
+  >
+    Pause
+  </button>
+  <button
+    id="howToPlayBtn"
+    class="samurai-button bg-gradient-to-br from-blue-800 via-blue-600 to-blue-800"
+  >
+    How To Play
+  </button>
+  <button
+    id="trumpCard"
+    class="samurai-button bg-gradient-to-br from-green-800 via-green-600 to-green-800"
+    onclick="showTrumpCardModal()"
+  >
+    Trump Card
+  </button>
+  <a href="index.html">
+    <button
+      id="menu"
+      class="samurai-button bg-gradient-to-br from-black via-gray-700 to-black"
+    >
+      Menu
+    </button>
+  </a>
+  <button
+    id="muteSound"
+    class="samurai-button bg-gradient-to-br from-red-800 via-red-600 to-red-800"
+    onclick="toggleSound()"
+  >
+    🔇
+  </button>
+</div>
+
+<style>
+  .samurai-button {
+    font-family: 'Cinzel', serif; /* Add a classic serif font for a samurai feel */
+    color: white;
+    text-shadow: 2px 2px 4px black; /* Adds depth and drama */
+    padding: 0.75rem 2rem;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 0.5rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.8), inset 0 0 5px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .samurai-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5), inset 0 0 10px rgba(0, 0, 0, 0.8);
+  }
+
+  .samurai-button:active {
+    transform: scale(0.95);
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.8);
+  }
+
+  #Buttons {
+    background: url('./assets/border-pattern.jpg') repeat; /* Optional: Japanese scroll background pattern */
+    border-image: url('./img/background.png') 30 fill; /* Optional: Add a custom border */
+  }
+</style>
+
 
     <!-- Modals -->
 

@@ -382,7 +382,7 @@ const handleKeyPress = (event, isPressed) => {
       player.lastKey = isPressed ? "a" : null;
       break;
     case "w":
-      if (isPressed && !player.isDead) player.velocity.y = -20;
+      if (isPressed && !player.isDead &&player.position.y >=300) player.velocity.y = -20;
       gameOverSound.play()
       break;
     case " ":
@@ -400,8 +400,10 @@ const handleKeyPress = (event, isPressed) => {
       enemy.lastKey = isPressed ? "ArrowLeft" : null;}
       break;
     case "ArrowUp":
-      if (isPressed && !enemy.isDead && !gameMode) enemy.velocity.y = -20;
+      if (isPressed && !enemy.isDead && !gameMode &&enemy.position.y >=300) enemy.velocity.y = -20;
       gameOverSound.play()
+      
+
       break;
     case "ArrowDown":
       if (isPressed && !enemy.isDead && !gameMode) enemy.attack();
