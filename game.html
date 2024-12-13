@@ -120,7 +120,22 @@
         <p>Here you can display questions or related content.</p>
       </div>
     </div>
+    <!-- Winner Modal -->
+<div id="winnerModal" class="modal">
+  <div class="modal-content">
+    <span class="close" data-modal="winnerModal">&times;</span>
+    <h2 id="winnerText"></h2> <!-- The winner will be displayed here -->
+    <button id="closeModalButton"></button>
+    <a href="./index.html"><button  id="menu"
+      class="bg-black hover:bg-green-700 text-white px-6 py-3 rounded-lg shadow-lg transition-all">Menu</button></a>
+    <a href="./game.html"><button  id="game"
+      class="bg-black hover:bg-green-700 text-white px-6 py-3 rounded-lg shadow-lg transition-all">Play Again</button></a>
+  </div>
+</div>
+    <!--AUDIO -->
 
+    <audio id="playerSound" src="assets/audio/samurai.mp3" preload="auto"></audio>
+    <audio id="enemySound" src="assets/audio/ninja.mp3" preload="auto"></audio>
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"
       crossorigin="anonymous"

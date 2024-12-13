@@ -12,7 +12,9 @@ const healthAndTimer = document.querySelector("#healthAndTimer")
 // Get the mode from the URL
 const urlParams = new URLSearchParams(window.location.search);
 const gameMode = urlParams.get("mode"); // 'ai' or 'player'
-
+// Load the audio elements
+const playerSound = document.getElementById('playerSound');
+const enemySound = document.getElementById('enemySound');
 
 
 
@@ -223,7 +225,7 @@ function animate() {
   if (keys.a.pressed && player.lastKey === "a" && !player.isDead && player.position.x >=-140) {
     player.facing = "leftPlayer"
     //attackbox switch if moving oppoosite direction
-    player.attackBox.position.x = player.position.x - player.attackBox.width - player.attackBox.offset.x-430; // Move attack box to the left side
+    player.attackBox.position.x = player.position.x - player.attackBox.width - player.attackBox.offset.x-275; // Move attack box to the left side
     player.attackBox.position.y = player.position.y;
     player.velocity.x = -5; //5fps
     player.switchSprites("run");
@@ -263,9 +265,8 @@ function animate() {
     enemy.velocity.x = -5; //5fps
     enemy.switchSprites("run");
     //switch attackbox position
-
     enemy.attackBox.position.x = enemy.position.x + enemy.attackBox.offset.x; // Move attack box to the right side
-   enemy.attackBox.position.y = enemy.position.y;
+    enemy.attackBox.position.y = enemy.position.y;
 
 
   } else if (keys.ArrowRight.pressed && enemy.lastKey === "ArrowRight" && !enemy.isDead && enemy.position.x <= 585) {
@@ -349,6 +350,7 @@ const handleKeyPress = (event, isPressed) => {
       break;
     case " ":
       if (isPressed && !player.isDead) player.attack();
+      playerSound.play()
       break;
     case "ArrowRight":
       if(!gameMode){
@@ -365,6 +367,8 @@ const handleKeyPress = (event, isPressed) => {
       break;
     case "ArrowDown":
       if (isPressed && !enemy.isDead && !gameMode) enemy.attack();
+      enemySound.play()
+
       break;
   }
 };

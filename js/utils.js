@@ -18,19 +18,37 @@ function rectangularCollision({ rectangle1, rectangle2 }) {
   
   
   //determine the winner function
-  // function determineWinner({player,enemy, timerId}) {
-  //     clearTimeout(timerId)
-  //     displayText.style.display = "flex"
-  //     if(player.health > enemy.health){
-  //       displayText.innerHTML = "PLAYER 1 WINS"
-
-  //     }else if(enemy.health > player.health){
-  //       displayText.innerHTML = "ENEMY WINS"
-  //     }else{
-  //       displayText.innerHTML = "TIE"
-  //     }
-    
-  // }
+  function determineWinner({ player, enemy, timerId }) {
+    clearTimeout(timerId);
+    gameOver = true
+    // Get modal elements
+    const winnerModal = document.getElementById('winnerModal');
+    const winnerText = document.getElementById('winnerText');
+    const closeButton = document.getElementById('closeModalButton');
+  
+    // Determine the winner
+    if (player.health > enemy.health) {
+      winnerText.textContent = "PLAYER 1 WINS";
+    } else if (enemy.health > player.health) {
+      winnerText.textContent = "ENEMY WINS";
+    } else {
+      winnerText.textContent = "TIE";
+    }
+  
+    // Show the modal with the winner
+    winnerModal.style.display = "block";
+  
+    // Close modal when the close button is clicked
+    closeButton.addEventListener("click", () => {
+      winnerModal.style.display = "none";
+    });
+  
+    // Close modal when the 'X' (close) button is clicked
+    const closeModalButton = document.querySelector(".close");
+    closeModalButton.addEventListener("click", () => {
+      winnerModal.style.display = "none";
+    });
+  }
   
   //GAME TIMER HERE
   let time = 60
