@@ -7,6 +7,39 @@
     <link rel="stylesheet" href="styles.css" />
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Tailwind CDN -->
+
+    <script>
+   let soundEnabled = true; // Initialize sound state
+
+// Function to toggle sound for all audio elements
+function toggleSound() {
+  const button = document.getElementById('muteSound'); // Reference the mute button
+  const allAudioElements = document.querySelectorAll('audio'); // Select all audio elements
+
+  soundEnabled = !soundEnabled; // Toggle sound state
+
+  if (soundEnabled) {
+    allAudioElements.forEach((audio) => (audio.volume = 1)); // Unmute all audio
+    button.innerText = '🔇'; // Update button text
+  } else {
+    allAudioElements.forEach((audio) => (audio.volume = 0)); // Mute all audio
+    button.innerText = '🔊'; // Update button text
+  }
+}
+
+// Automatically ensure all audio elements are ready
+window.onload = function () {
+  const allAudioElements = document.querySelectorAll('audio');
+  allAudioElements.forEach((audio) => {
+    audio.volume = soundEnabled ? 1 : 0;
+    if (soundEnabled) {
+      audio.play().catch((err) => console.warn('Audio playback failed:', err));
+    }
+  });
+};
+
+  </script>
+  
   </head>
 
   <body class="bg-black h-screen flex flex-col items-center justify-start">
@@ -84,8 +117,15 @@
             class="bg-black hover:bg-green-700 text-white px-6 py-3 rounded-lg shadow-lg transition-all"
           >
             Menu
-          </button></a
-        >
+          </button></a>
+          <button
+  id="muteSound"
+  class="bg-red-500 hover:bg-red-700 text-white px-6 py-3 rounded-lg shadow-lg transition-all"
+  onclick="toggleSound()"
+>
+  🔇
+</button>
+
       </div>
     </div>
     <!-- Modals -->
@@ -136,6 +176,10 @@
 
     <audio id="playerSound" src="assets/audio/samurai.mp3" preload="auto"></audio>
     <audio id="enemySound" src="assets/audio/ninja.mp3" preload="auto"></audio>
+    <audio id="gameOverSound" src="assets/audio/gameOver.mp3" preload="auto"></audio>
+    <audio id="fightSound" src="assets/audio/fight.mp3" preload="auto" loop></audio>
+    <audio id="fluteSound" src="assets/audio/flute-bg.mp3" preload="auto"></audio>
+
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"
       crossorigin="anonymous"
@@ -147,5 +191,6 @@
     <script src="scripts.js"></script>
     <script src="./js/questions.js"></script>
     <script src="./js/modals.js"></script>
+
   </body>
 </html>

@@ -25,7 +25,8 @@ function rectangularCollision({ rectangle1, rectangle2 }) {
     const winnerModal = document.getElementById('winnerModal');
     const winnerText = document.getElementById('winnerText');
     const closeButton = document.getElementById('closeModalButton');
-  
+    
+
     // Determine the winner
     if (player.health > enemy.health) {
       winnerText.textContent = "PLAYER 1 WINS";
@@ -34,7 +35,7 @@ function rectangularCollision({ rectangle1, rectangle2 }) {
     } else {
       winnerText.textContent = "TIE";
     }
-  
+    
     // Show the modal with the winner
     winnerModal.style.display = "block";
   

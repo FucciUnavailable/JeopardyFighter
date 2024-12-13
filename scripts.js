@@ -316,10 +316,12 @@ function animate() {
       width: player.health + "%",
     });
   }
-
+  const gameOverSound = document.getElementById('gameOverSound')
+  
   //end game when health reaches 0
   if (enemy.health <= 0 || player.health <= 0) {
     determineWinner({ player, enemy, timer });
+    
   }
   if (enemy.health <= 0) {
     enemy.isDead = true;
@@ -347,6 +349,7 @@ const handleKeyPress = (event, isPressed) => {
       break;
     case "w":
       if (isPressed && !player.isDead) player.velocity.y = -20;
+      gameOverSound.play()
       break;
     case " ":
       if (isPressed && !player.isDead) player.attack();
@@ -364,6 +367,7 @@ const handleKeyPress = (event, isPressed) => {
       break;
     case "ArrowUp":
       if (isPressed && !enemy.isDead && !gameMode) enemy.velocity.y = -20;
+      gameOverSound.play()
       break;
     case "ArrowDown":
       if (isPressed && !enemy.isDead && !gameMode) enemy.attack();

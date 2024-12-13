@@ -123,27 +123,7 @@ class Fighter extends Sprite {
     this.animateFrames();
     
     
-      // Adjust attack box position based on facing direction
-  // if (this.facing === "leftPlayer") {
-  //   // Flip attack box position when facing left
-  //   this.attackBox.position.x = this.position.x - this.attackBox.width - this.attackBox.offset.x-430; // Move attack box to the left side
-  //   this.attackBox.position.y = this.position.y;
-    
-  // } else {
-  //   // Normal position when facing right
-  //   this.attackBox.position.x = this.position.x + this.attackBox.offset.x; // Move attack box to the right side
-  //   this.attackBox.position.y = this.position.y;
-  // }
-  // if (this.facing === "leftEnemy") {
-  //   // Flip attack box position when facing left
-  //   this.attackBox.position.x = this.position.x - this.attackBox.width - this.attackBox.offset.x+430; // Move attack box to the left side
-  //   this.attackBox.position.y = this.position.y;
-    
-  // } else {
-  //   // Normal position when facing right
-  //   this.attackBox.position.x = this.position.x + this.attackBox.offset.x; // Move attack box to the right side
-  //   this.attackBox.position.y = this.position.y;
-  // }
+
 
     //adding movement to the X position using X speed (velocity)
     this.position.x += this.velocity.x; //current position + movement speed
@@ -158,8 +138,8 @@ class Fighter extends Sprite {
 
   //attack
   attack() {
-    console.log("attackbox x: ", this.attackBox.position.x)
-    console.log("position x: ", this.position.x)  
+    // console.log("attackbox x: ", this.attackBox.position.x)
+    // console.log("position x: ", this.position.x)  
 
     //prevent character from spam attack (if character is currently attacking return)
     if (

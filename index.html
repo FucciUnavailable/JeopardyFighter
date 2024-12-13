@@ -4,27 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jeopardy Fighter</title>
-    <script src="https://cdn.tailwindcss.com"></script> <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        // JavaScript for pop-up toggle and sound control
-        let soundEnabled = true;
+        let soundEnabled = true; // Initialize sound state
+
+        // Function to toggle sound on/off
         function toggleSound() {
-            soundEnabled = !soundEnabled;
-            document.getElementById('soundToggle').innerText = soundEnabled ? "Mute Sound" : "Unmute Sound";
+            const button = document.getElementById('muteSound'); // Correct button ID
+            const fluteSound = document.getElementById('fluteSound'); // Reference audio element
+
+            soundEnabled = !soundEnabled; // Toggle sound state
+
+            if (soundEnabled) {
+                fluteSound.play(); // Play the sound
+                button.innerText = "Mute Sound"; // Update button text
+            } else {
+                fluteSound.pause(); // Pause the sound
+                button.innerText = "Unmute Sound"; // Update button text
+            }
         }
 
-        function openPopup() {
-            document.getElementById('difficultyPopup').classList.remove('hidden');
-        }
-
-        function closePopup() {
-            document.getElementById('difficultyPopup').classList.add('hidden');
-        }
-
-        function startGame(difficulty) {
-            alert('Starting game with difficulty: ' + difficulty);
-            closePopup();
-        }
+        // Automatically play background music if sound is enabled
+        window.onload = function () {
+            const fluteSound = document.getElementById("fluteSound");
+            if (soundEnabled) {
+                fluteSound.play();
+            }
+        };
     </script>
 </head>
 <body class="bg-gray-900 text-white">
@@ -43,13 +49,13 @@
 
         <!-- Buttons for starting a game and sound toggle -->
         <div class="flex flex-col items-center space-y-4">
-            <a href="./game.html"> <button class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-lg text-xl" onclick="alert('Starting a new game!')">New Game LAN</button></a>
+            <a href="./game.html"> <button class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-lg text-xl">New Game LAN</button></a>
             
             <!-- Play against AI button -->
             <button class="bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded-lg text-xl" onclick="openPopup()">Play Against AI</button>
 
             <!-- Sound toggle -->
-            <button id="soundToggle" class="bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded-lg text-xl" onclick="toggleSound()">Mute Sound</button>
+            <button id="muteSound" class="bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded-lg text-xl" onclick="toggleSound()">Mute Sound</button>
         </div>
 
         <!-- Difficulty Selection Popup -->
@@ -57,15 +63,21 @@
             <div class="bg-gray-800 p-8 rounded-lg text-center space-y-4">
                 <h2 class="text-3xl font-semibold">Choose Difficulty</h2>
                 <div class="flex space-x-4">
-                   <a href="./game.html?mode=easyBot"> <button id="easyBot" class="bg-yellow-500 hover:bg-yellow-700 py-2 px-4 rounded-lg text-xl" onclick="startGame('Easy')">Easy</button></a>
-                   <a href="./game.html?mode=mediumBot"><button id="mediumBot" class="bg-orange-500 hover:bg-orange-700 py-2 px-4 rounded-lg text-xl" onclick="startGame('Medium')">Medium</button></a>
-                   <a href="./game.html?mode=hardBot"><button id="hardBot" class="bg-red-500 hover:bg-red-700 py-2 px-4 rounded-lg text-xl" onclick="startGame('Hard')">Hard</button></a>
+                    <a href="./game.html?mode=easyBot"> 
+                        <button id="easyBot" class="bg-yellow-500 hover:bg-yellow-700 py-2 px-4 rounded-lg text-xl">Easy</button>
+                    </a>
+                    <a href="./game.html?mode=mediumBot">
+                        <button id="mediumBot" class="bg-orange-500 hover:bg-orange-700 py-2 px-4 rounded-lg text-xl">Medium</button>
+                    </a>
+                    <a href="./game.html?mode=hardBot">
+                        <button id="hardBot" class="bg-red-500 hover:bg-red-700 py-2 px-4 rounded-lg text-xl">Hard</button>
+                    </a>
                 </div>
                 <button class="mt-4 bg-gray-600 hover:bg-gray-800 py-2 px-4 rounded-lg text-xl" onclick="closePopup()">Close</button>
             </div>
         </div>
 
     </div>
-    
+    <audio id="fluteSound" src="assets/audio/flute-bg.mp3" preload="auto" loop></audio>
 </body>
 </html>
