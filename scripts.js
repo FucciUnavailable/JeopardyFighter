@@ -209,7 +209,7 @@ function animate() {
     enemyAI()
  
   }
- 
+  
   player.velocity.x = 0;
  
  

@@ -9,37 +9,54 @@
     <!-- Tailwind CDN -->
 
     <script>
-   let soundEnabled = true; // Initialize sound state
+      let soundEnabled = true; // Initialize sound state
 
-// Function to toggle sound for all audio elements
-function toggleSound() {
-  const button = document.getElementById('muteSound'); // Reference the mute button
-  const allAudioElements = document.querySelectorAll('audio'); // Select all audio elements
+      // Function to toggle sound for all audio elements
+      function toggleSound() {
+        const button = document.getElementById('muteSound'); // Reference the mute button
+        const allAudioElements = document.querySelectorAll('audio'); // Select all audio elements
 
-  soundEnabled = !soundEnabled; // Toggle sound state
+        soundEnabled = !soundEnabled; // Toggle sound state
 
-  if (soundEnabled) {
-    allAudioElements.forEach((audio) => (audio.volume = 1)); // Unmute all audio
-    button.innerText = '🔇'; // Update button text
-  } else {
-    allAudioElements.forEach((audio) => (audio.volume = 0)); // Mute all audio
-    button.innerText = '🔊'; // Update button text
-  }
-}
+        if (soundEnabled) {
+          allAudioElements.forEach((audio) => (audio.volume = 1)); // Unmute all audio
+          button.innerText = '🔇'; // Update button text
+        } else {
+          allAudioElements.forEach((audio) => (audio.volume = 0)); // Mute all audio
+          button.innerText = '🔊'; // Update button text
+        }
+      }
 
-// Automatically ensure all audio elements are ready
-window.onload = function () {
-  const allAudioElements = document.querySelectorAll('audio');
-  allAudioElements.forEach((audio) => {
-    audio.volume = soundEnabled ? 1 : 0;
-    if (soundEnabled) {
-      audio.play().catch((err) => console.warn('Audio playback failed:', err));
-    }
-  });
-};
+      // Automatically ensure all audio elements are ready
+      window.onload = function () {
+        const allAudioElements = document.querySelectorAll('audio');
+        allAudioElements.forEach((audio) => {
+          audio.volume = soundEnabled ? 1 : 0;
+          if (soundEnabled) {
+            audio.play().catch((err) => console.warn('Audio playback failed:', err));
+          }
+        });
+      };
 
-  </script>
-  
+      // Function to show the Trump Card modal
+      function showTrumpCardModal() {
+        const modal = document.getElementById('trumpCardModal'); // Reference the modal
+        modal.style.display = 'block'; // Display the modal
+
+        const closeButton = modal.querySelector('.close'); // Reference the close button
+        closeButton.addEventListener('click', function () {
+          modal.style.display = 'none'; // Close the modal when the close button is clicked
+        });
+      }
+
+      // Automatically hide the modal if the user clicks outside of it
+      window.onclick = function (event) {
+        const modal = document.getElementById('trumpCardModal');
+        if (event.target === modal) {
+          modal.style.display = 'none'; // Hide the modal when clicking outside
+        }
+      };
+    </script>
   </head>
 
   <body class="bg-black h-screen flex flex-col items-center justify-start">
@@ -106,10 +123,11 @@ window.onload = function () {
           How To Play
         </button>
         <button
-          id="noQuestions"
+          id="trumpCard"
           class="bg-green-500 hover:bg-green-700 text-white px-6 py-3 rounded-lg shadow-lg transition-all"
+          onclick="showTrumpCardModal()"
         >
-          No Questions
+          Trump Card
         </button>
         <a href="index.html"
           ><button
@@ -118,79 +136,83 @@ window.onload = function () {
           >
             Menu
           </button></a>
-          <button
-  id="muteSound"
-  class="bg-red-500 hover:bg-red-700 text-white px-6 py-3 rounded-lg shadow-lg transition-all"
-  onclick="toggleSound()"
->
-  🔇
-</button>
-
+        <button
+          id="muteSound"
+          class="bg-red-500 hover:bg-red-700 text-white px-6 py-3 rounded-lg shadow-lg transition-all"
+          onclick="toggleSound()"
+        >
+          🔇
+        </button>
       </div>
     </div>
+
     <!-- Modals -->
-   <!-- How to Play Modal -->
-<div id="howToPlayModal" class="modal">
-    <div class="modal-content">
-      <span class="close" data-modal="howToPlayModal">&times;</span>
-     
-      
-      <!-- Character Controls for Samurai Mack -->
-      <h3>Samurai Mack</h3>
-      <p><strong>A:</strong> Left</p>
-      <p><strong>D:</strong> Right</p>
-      <p><strong>W:</strong> Jump</p>
-      <p><strong>Space:</strong> Attack</p>
-      
-      <!-- Character Controls for Kenji -->
-      <h3>Kenji</h3>
-      <p><strong>leftArr:</strong> Left</p>
-      <p><strong>rightArr:</strong> Right</p>
-      <p><strong>upArr:</strong> Jump</p>
-      <p><strong>downArr:</strong> Attack</p>
-    </div>
-  </div>
-  
 
-    <!-- Questions Modal -->
-    <div id="questionsModal" class="modal">
-      <div class="modal-content">
-        <span class="close" data-modal="questionsModal">&times;</span>
-        <h2>Questions</h2>
-        <p>Here you can display questions or related content.</p>
-      </div>
+ <!-- Trump Card Modal -->
+<div id="trumpCardModal" class="modal hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+  <div class="modal-content bg-white p-8 rounded-lg shadow-lg text-center">
+    <span class="close cursor-pointer absolute top-2 right-2 text-xl font-bold" onclick="closeTrumpCardModal()">&times;</span>
+    <h2 class="text-2xl font-semibold mb-4">Trump Card Question</h2>
+    
+    <p id="questionText" class="text-lg mb-6">Question will go here.</p>
+
+    <div id="answersContainer" class="space-y-4">
+      <!-- Answers will be added dynamically -->
     </div>
-    <!-- Winner Modal -->
-<div id="winnerModal" class="modal">
-  <div class="modal-content">
-    <span class="close" data-modal="winnerModal">&times;</span>
-    <h2 id="winnerText"></h2> <!-- The winner will be displayed here -->
-    <button id="closeModalButton"></button>
-    <a href="./index.html"><button  id="menu"
-      class="bg-black hover:bg-green-700 text-white px-6 py-3 rounded-lg shadow-lg transition-all">Menu</button></a>
-    <a href="./game.html"><button  id="game"
-      class="bg-black hover:bg-green-700 text-white px-6 py-3 rounded-lg shadow-lg transition-all">Play Again</button></a>
+
+    <button class="bg-green-500 hover:bg-green-700 text-white px-6 py-3 rounded-lg shadow-lg mt-6" onclick="closeTrumpCardModal()">Close</button>
   </div>
 </div>
-    <!--AUDIO -->
 
+
+
+    <!-- How to Play Modal -->
+    <div id="howToPlayModal" class="modal">
+      <div class="modal-content">
+        <span class="close" data-modal="howToPlayModal">&times;</span>
+
+        <!-- Character Controls for Samurai Mack -->
+        <h3>Samurai Mack</h3>
+        <p><strong>A:</strong> Left</p>
+        <p><strong>D:</strong> Right</p>
+        <p><strong>W:</strong> Jump</p>
+        <p><strong>Space:</strong> Attack</p>
+
+        <!-- Character Controls for Kenji -->
+        <h3>Kenji</h3>
+        <p><strong>leftArr:</strong> Left</p>
+        <p><strong>rightArr:</strong> Right</p>
+        <p><strong>upArr:</strong> Jump</p>
+        <p><strong>downArr:</strong> Attack</p>
+      </div>
+    </div>
+
+    <!-- Winner Modal -->
+    <div id="winnerModal" class="modal">
+      <div class="modal-content">
+        <span class="close" data-modal="winnerModal">&times;</span>
+        <h2 id="winnerText"></h2> <!-- The winner will be displayed here -->
+        <button id="closeModalButton"></button>
+        <a href="./index.html"><button id="menu" class="bg-black hover:bg-green-700 text-white px-6 py-3 rounded-lg shadow-lg transition-all">Menu</button></a>
+        <a href="./game.html"><button id="game" class="bg-black hover:bg-green-700 text-white px-6 py-3 rounded-lg shadow-lg transition-all">Play Again</button></a>
+      </div>
+    </div>
+
+    <!-- AUDIO -->
     <audio id="playerSound" src="assets/audio/samurai.mp3" preload="auto"></audio>
     <audio id="enemySound" src="assets/audio/ninja.mp3" preload="auto"></audio>
     <audio id="gameOverSound" src="assets/audio/gameOver.mp3" preload="auto"></audio>
     <audio id="fightSound" src="assets/audio/fight.mp3" preload="auto" loop></audio>
     <audio id="fluteSound" src="assets/audio/flute-bg.mp3" preload="auto"></audio>
 
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="./js/button.js"></script>
+    <script src="./js/modals.js"></script>
+    <script src="./js/questions.js"></script>
     <script src="./js/classes.js"></script>
     <script src="./js/utils.js"></script>
     <script src="scripts.js"></script>
-    <script src="./js/questions.js"></script>
-    <script src="./js/modals.js"></script>
-
+   
+  
   </body>
 </html>

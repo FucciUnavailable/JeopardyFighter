@@ -63,7 +63,7 @@ function rectangularCollision({ rectangle1, rectangle2 }) {
       time --
       timer.innerHTML = time
     }
-    if (timer === 0){
+    if (time === 0){
       gameOver = true
       determineWinner({player,enemy, timerId})
     }
