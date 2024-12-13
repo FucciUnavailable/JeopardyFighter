@@ -65,7 +65,9 @@ const player = new Fighter({
     attack2: { imageSrc: "./img/samuraiMack/Attack2.png", maxFrame: 6 },
   },
   isDead: false,
+  facing: "right"
 });
+
 //enemy character constructor
 const enemy = new Fighter({
   //initial position of enemy
@@ -97,6 +99,7 @@ const enemy = new Fighter({
     attack2: { imageSrc: "./img/kenji/Attack2.png", maxFrame: 4 },
   },
   isDead: false,
+  facing: "left"
 });
 //draw enemy and player
 player.draw();
@@ -194,7 +197,7 @@ function animate() {
   c.fillStyle = "black";
   c.fillRect(0, 0, canvas.width, canvas.height);
  //make sure player and enemy stop moving when key is up
-
+  
   background.update();
   shop.update();
   player.update();
@@ -218,9 +221,12 @@ function animate() {
   }
   //player movement animation
   if (keys.a.pressed && player.lastKey === "a" && !player.isDead) {
+    player.facing = "leftPlayer"
     player.velocity.x = -5; //5fps
     player.switchSprites("run");
   } else if (keys.d.pressed && player.lastKey === "d" && !player.isDead) {
+    player.facing = "right"
+
     player.velocity.x = 5; //5fps
     player.switchSprites("run");
   }
@@ -244,13 +250,19 @@ function animate() {
 
   //enemy movement animation
   if (keys.ArrowLeft.pressed && enemy.lastKey === "ArrowLeft" && !enemy.isDead) {
+    enemy.facing = "right"; // Update direction
     enemy.velocity.x = -5; //5fps
     enemy.switchSprites("run");
+
+
+
   } else if (keys.ArrowRight.pressed && enemy.lastKey === "ArrowRight" && !enemy.isDead) {
+    enemy.facing = "leftEnemy"; // Update direction
     enemy.velocity.x = 5; //5fps
     enemy.switchSprites("run");
-  }else{
-    
+   
+
+
   }
 
   //if enemy is jumping

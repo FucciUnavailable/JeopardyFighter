@@ -19,6 +19,23 @@ class Sprite {
     (this.framesHold = 5), (this.offset = offset);
   }
   draw() {
+    c.save(); // Save the current canvas state
+  
+   
+  // Check if the sprite should face left
+  if (this.facing === "leftPlayer") {
+    c.translate(this.position.x + this.width * 2 * this.scale, this.position.y); // Translate pivot point
+    c.scale(-1, 1); // Flip horizontally
+    c.translate(-this.position.x - this.width * this.scale, -this.position.y); // Reset pivot point
+  } 
+   // Check if the sprite should face left
+   if (this.facing === "leftEnemy") {
+    c.translate(this.position.x + this.width * 5 * this.scale, this.position.y); // Translate pivot point
+    c.scale(-1, 1); // Flip horizontally
+    c.translate(-this.position.x - this.width * this.scale, -this.position.y); // Reset pivot point
+  } 
+
+  
     c.drawImage(
       this.image,
       this.currentFrame * (this.image.width / this.maxFrame),
@@ -30,7 +47,10 @@ class Sprite {
       (this.image.width / this.maxFrame) * this.scale,
       this.image.height * this.scale
     );
+  
+    c.restore(); // Restore the canvas state
   }
+  
 
   animateFrames() {
     this.framesElapsed++;
@@ -62,6 +82,7 @@ class Fighter extends Sprite {
     sprites,
     currentFrame,
     isDead,
+    facing
   }) {
     super({ position, imageSrc, scale, maxFrame, offset, currentFrame });
 
