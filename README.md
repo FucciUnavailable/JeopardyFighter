@@ -29,11 +29,19 @@ This project demonstrates my skills in **game development**, **object-oriented p
 
 - **HTML5 Canvas**: Used to render the game, display characters, and handle animations.
 - **JavaScript**: Handles the game logic, character movements, animations, and collision detection.
+- **Tailwind**: Basic styling for the website layout.
 - **CSS**: Basic styling for the game interface and layout.
 - **Git & GitHub**: Version control for managing and hosting the project.
 - **Gsap**: Used to animate health bar.
----
 
+---
+## Game Assets
+-https://luizmelo.itch.io/martial-hero
+-https://luizmelo.itch.io/martial-hero-2
+
+
+
+---
 ## Installation
 
 To run the game locally:
