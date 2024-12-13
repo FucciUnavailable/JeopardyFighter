@@ -4,6 +4,7 @@ let gameOver = false
 
 //collision function
 function rectangularCollision({ rectangle1, rectangle2 }) {
+    
     return (
       rectangle1.attackBox.position.x + rectangle1.attackBox.width >=
         rectangle2.position.x &&
@@ -17,19 +18,19 @@ function rectangularCollision({ rectangle1, rectangle2 }) {
   
   
   //determine the winner function
-  function determineWinner({player,enemy, timerId}) {
-      clearTimeout(timerId)
-      displayText.style.display = "flex"
-      if(player.health > enemy.health){
-        displayText.innerHTML = "PLAYER 1 WINS"
+  // function determineWinner({player,enemy, timerId}) {
+  //     clearTimeout(timerId)
+  //     displayText.style.display = "flex"
+  //     if(player.health > enemy.health){
+  //       displayText.innerHTML = "PLAYER 1 WINS"
 
-      }else if(enemy.health > player.health){
-        displayText.innerHTML = "ENEMY WINS"
-      }else{
-        displayText.innerHTML = "TIE"
-      }
+  //     }else if(enemy.health > player.health){
+  //       displayText.innerHTML = "ENEMY WINS"
+  //     }else{
+  //       displayText.innerHTML = "TIE"
+  //     }
     
-  }
+  // }
   
   //GAME TIMER HERE
   let time = 60

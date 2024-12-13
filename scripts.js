@@ -225,7 +225,7 @@ function animate() {
     player.velocity.x = -5; //5fps
     player.switchSprites("run");
   } else if (keys.d.pressed && player.lastKey === "d" && !player.isDead) {
-    player.facing = "right"
+    player.facing = "rightPlayer"
 
     player.velocity.x = 5; //5fps
     player.switchSprites("run");
@@ -250,7 +250,7 @@ function animate() {
 
   //enemy movement animation
   if (keys.ArrowLeft.pressed && enemy.lastKey === "ArrowLeft" && !enemy.isDead) {
-    enemy.facing = "right"; // Update direction
+    enemy.facing = "rightEnemy"; // Update direction
     enemy.velocity.x = -5; //5fps
     enemy.switchSprites("run");
 

@@ -27,6 +27,7 @@ class Sprite {
     c.translate(this.position.x + this.width * 2 * this.scale, this.position.y); // Translate pivot point
     c.scale(-1, 1); // Flip horizontally
     c.translate(-this.position.x - this.width * this.scale, -this.position.y); // Reset pivot point
+    
   } 
    // Check if the sprite should face left
    if (this.facing === "leftEnemy") {
@@ -36,7 +37,9 @@ class Sprite {
   } 
 
   
+  
     c.drawImage(
+      
       this.image,
       this.currentFrame * (this.image.width / this.maxFrame),
       0,
@@ -62,11 +65,15 @@ class Sprite {
       }
     }
   }
+
+  
   //we animate the characters
   update() {
     this.draw();
     this.animateFrames();
+      // Draw the attack box
   }
+  
 }
 
 //Fighter class
@@ -114,9 +121,20 @@ class Fighter extends Sprite {
   update() {
     this.draw();
     this.animateFrames();
-
-    this.attackBox.position.x = this.position.x + this.attackBox.offset.x;
+    
+    
+      // Adjust attack box position based on facing direction
+  if (this.facing === "leftPlayer" || this.facing === "leftEnemy") {
+    // Flip attack box position when facing left
+    this.attackBox.position.x = this.position.x - this.attackBox.width - this.attackBox.offset.x; // Move attack box to the left side
     this.attackBox.position.y = this.position.y;
+    
+  } else {
+    // Normal position when facing right
+    this.attackBox.position.x = this.position.x + this.attackBox.offset.x; // Move attack box to the right side
+    this.attackBox.position.y = this.position.y;
+  }
+
     //adding movement to the X position using X speed (velocity)
     this.position.x += this.velocity.x; //current position + movement speed
     this.position.y += this.velocity.y;
@@ -130,6 +148,9 @@ class Fighter extends Sprite {
 
   //attack
   attack() {
+    console.log(this.attackBox.position.x)
+    console.log(this.position.x)  
+
     //prevent character from spam attack (if character is currently attacking return)
     if (
       this.image === this.sprites.attack1.image &&
