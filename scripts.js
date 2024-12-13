@@ -222,13 +222,22 @@ function animate() {
   //player movement animation
   if (keys.a.pressed && player.lastKey === "a" && !player.isDead) {
     player.facing = "leftPlayer"
+    //attackbox switch if moving oppoosite direction
+    player.attackBox.position.x = player.position.x - player.attackBox.width - player.attackBox.offset.x-430; // Move attack box to the left side
+    player.attackBox.position.y = player.position.y;
     player.velocity.x = -5; //5fps
     player.switchSprites("run");
   } else if (keys.d.pressed && player.lastKey === "d" && !player.isDead) {
     player.facing = "rightPlayer"
-
+    
     player.velocity.x = 5; //5fps
     player.switchSprites("run");
+
+        //switch attackbox position
+
+        player.attackBox.position.x = player.position.x + player.attackBox.offset.x; // Move attack box to the right side
+        player.attackBox.position.y = player.position.y;
+
   }
 
   // if (player.position.x <= 0) {
@@ -253,11 +262,16 @@ function animate() {
     enemy.facing = "rightEnemy"; // Update direction
     enemy.velocity.x = -5; //5fps
     enemy.switchSprites("run");
+    //switch attackbox position
 
+    enemy.attackBox.position.x = enemy.position.x + enemy.attackBox.offset.x; // Move attack box to the right side
+   enemy.attackBox.position.y = enemy.position.y;
 
 
   } else if (keys.ArrowRight.pressed && enemy.lastKey === "ArrowRight" && !enemy.isDead) {
     enemy.facing = "leftEnemy"; // Update direction
+    enemy.attackBox.position.x = enemy.position.x - enemy.attackBox.width - enemy.attackBox.offset.x+430; // Move attack box to the left side
+    enemy.attackBox.position.y = enemy.position.y;
     enemy.velocity.x = 5; //5fps
     enemy.switchSprites("run");
    
