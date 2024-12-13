@@ -106,7 +106,7 @@ function checkAnswer(isCorrect) {
   } else {
     healthBonus = -10; // Incorrect answer, decrease health
     updatePlayerHealth(); // Update player's health in the game
-
+    updateEnemyHealth()
     alert("Incorrect! Your health has decreased by 10.");
   }
 
@@ -128,6 +128,14 @@ function updatePlayerHealth() {
   player.health += healthBonus; // Update the player's health with the bonus
   gsap.to("#playerHealth", { // Assuming you're using GSAP for animation
     width: player.health + "%" // Update the health bar
+  });
+}
+
+// Function to update player health in the main game
+function updateEnemyHealth() {
+  enemy.health -= healthBonus; // Update the player's health with the bonus
+  gsap.to("#enemyHealth", { // Assuming you're using GSAP for animation
+    width: enemy.health + "%" // Update the health bar
   });
 }
 

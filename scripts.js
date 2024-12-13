@@ -133,6 +133,15 @@ function enemyAI() {
     }
 
   }
+
+  const attackMultiplier = (mode) => {
+    switch(mode){
+      case "easyBot": return speed.easy
+      case "mediumBot": return speed.medium
+      case "hardBot": return speed.hard
+    }
+
+  }
   // Behavior thresholds
   const attackRange = 100;
   const closeRange = 200;
@@ -141,6 +150,7 @@ function enemyAI() {
     // Retreat when health is low
     if (player.position.x < enemy.position.x) {
       enemy.velocity.x = multiplier(gameMode);  // Move right
+      
     } else {
       enemy.velocity.x = - multiplier(gameMode); // Move left
     }
@@ -149,19 +159,43 @@ function enemyAI() {
     // Move toward the player
     if (player.position.x < enemy.position.x) {
       enemy.velocity.x = - multiplier(gameMode); // Move left
+      enemy.facing = "rightEnemy"; // Update direction
+        //switch attackbox position
+    enemy.attackBox.position.x = enemy.position.x + enemy.attackBox.offset.x; // Move attack box to the right side
+    enemy.attackBox.position.y = enemy.position.y;
     } else {
       enemy.velocity.x = multiplier(gameMode);  // Move right
+      enemy.facing = "leftEnemy"; // Update direction
+      enemy.attackBox.position.x = enemy.position.x - enemy.attackBox.width - enemy.attackBox.offset.x+430; // Move attack box to the left side
+      enemy.attackBox.position.y = enemy.position.y;
     }
     enemy.switchSprites("run");
   } else if (distance <= attackRange) {
     // Attack player if in range
-    if (!enemy.isAttacking && Math.random() < 0.01 ) {
+    if (!enemy.isAttacking && Math.random() < 0.01 * attackMultiplier(gameMode)) {
       enemy.attack();
+      console.log("position of enemy", enemy.position.x)
+      console.log("attackboc of enemy", enemy.attackBox.position.x)
+
     }
   } else {
     // Idle
     enemy.switchSprites("idle");
     enemy.velocity.x = 0; // Ensure the enemy stops moving when idle
+  }
+
+   //enemy AI attacks player
+   if (
+    rectangularCollision({ rectangle1: enemy, rectangle2: player }) &&
+    enemy.isAttacking && !enemy.isDead
+  ) {
+    enemy.isAttacking = false;
+
+    player.switchSprites("takeHit");
+    player.health -= 5;
+    gsap.to("#playerHealth", {
+      width: player.health + "%",
+    });
   }
 
   // Optional: Random jumping
