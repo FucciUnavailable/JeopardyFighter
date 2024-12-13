@@ -31,6 +31,18 @@
                 fluteSound.play();
             }
         };
+
+        // Function to open the difficulty popup
+        function openPopup() {
+            const popup = document.getElementById('difficultyPopup');
+            popup.classList.remove('hidden'); // Show the popup by removing the hidden class
+        }
+
+        // Function to close the difficulty popup
+        function closePopup() {
+            const popup = document.getElementById('difficultyPopup');
+            popup.classList.add('hidden'); // Hide the popup by adding the hidden class
+        }
     </script>
 </head>
 <body class="bg-gray-900 text-white">
