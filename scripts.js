@@ -15,7 +15,11 @@ const gameMode = urlParams.get("mode"); // 'ai' or 'player'
 // Load the audio elements
 const playerSound = document.getElementById('playerSound');
 const enemySound = document.getElementById('enemySound');
+const gameOverSound = document.getElementById('gameOverSound')
 
+const jumpSound = document.getElementById('jumpSound')
+const takeHit1Sound = document.getElementById('takeHit1Sound')
+const takeHit2Sound = document.getElementById('takeHit2Sound')
 
 
 //how fast players fall
@@ -190,7 +194,7 @@ function enemyAI() {
     enemy.isAttacking && !enemy.isDead
   ) {
     enemy.isAttacking = false;
-
+    takeHit1Sound.play()
     player.switchSprites("takeHit");
     player.health -= 5;
     gsap.to("#playerHealth", {
@@ -330,7 +334,7 @@ function animate() {
     player.isAttacking && !player.isDead
   ) {
     player.isAttacking = false;
-
+    takeHit1Sound.play()
     enemy.switchSprites("takeHit");
     enemy.health -= 5;
     gsap.to("#enemyHealth", {
@@ -343,14 +347,13 @@ function animate() {
     enemy.isAttacking && !enemy.isDead
   ) {
     enemy.isAttacking = false;
-
+    takeHit2Sound.play()
     player.switchSprites("takeHit");
     player.health -= 5;
     gsap.to("#playerHealth", {
       width: player.health + "%",
     });
   }
-  const gameOverSound = document.getElementById('gameOverSound')
   
   //end game when health reaches 0
   if (enemy.health <= 0 || player.health <= 0) {
@@ -383,7 +386,7 @@ const handleKeyPress = (event, isPressed) => {
       break;
     case "w":
       if (isPressed && !player.isDead &&player.position.y >=300) player.velocity.y = -20;
-      gameOverSound.play()
+      jumpSound.play()
       break;
     case " ":
       if (isPressed && !player.isDead) player.attack();
@@ -401,7 +404,7 @@ const handleKeyPress = (event, isPressed) => {
       break;
     case "ArrowUp":
       if (isPressed && !enemy.isDead && !gameMode &&enemy.position.y >=300) enemy.velocity.y = -20;
-      gameOverSound.play()
+      jumpSound.play()
       
 
       break;
